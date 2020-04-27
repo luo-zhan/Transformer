@@ -69,7 +69,7 @@ public class Translator {
         if (origins.size() == 0) {
             return origins;
         }
-        classes = (classes.length != 0) ? classes : new Class[]{origins.get(0).getClass()};
+        classes = (classes.length != 0 && classes[0] != void.class) ? classes : new Class[]{origins.get(0).getClass()};
 
         // 获取bo中需要翻译的属性
         List<Field> translateFieldList = Arrays.stream(classes)
