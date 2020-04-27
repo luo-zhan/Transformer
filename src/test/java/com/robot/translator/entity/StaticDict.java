@@ -1,6 +1,7 @@
 package com.robot.translator.entity;
 
 import com.robot.translator.core.annotation.Dictionary;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -10,6 +11,7 @@ import java.io.Serializable;
  * @author luozhan@asiainfo.com
  * @since 2020-04-27 10:25:42
  */
+@Data
 @Dictionary(codeColumn = "dict_code", textColumn = "dict_text", groupColumn = "group_code")
 public class StaticDict implements Serializable {
     private static final long serialVersionUID = 837652642519567677L;
@@ -31,36 +33,5 @@ public class StaticDict implements Serializable {
     private String dictText;
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getGroupCode() {
-        return groupCode;
-    }
-
-    public void setGroupCode(String groupCode) {
-        this.groupCode = groupCode;
-    }
-
-    public String getDictCode() {
-        return dictCode;
-    }
-
-    public void setDictCode(String dictCode) {
-        this.dictCode = dictCode;
-    }
-
-    public String getDictText() {
-        return dictText;
-    }
-
-    public void setDictText(String dictText) {
-        this.dictText = dictText;
-    }
 
 }

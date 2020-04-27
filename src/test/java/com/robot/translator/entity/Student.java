@@ -1,6 +1,9 @@
 package com.robot.translator.entity;
 
+import com.robot.translator.core.annotation.Dictionary;
 import com.robot.translator.core.annotation.Translate;
+import com.robot.translator.dict.MyDict;
+import com.robot.translator.translator.MyAgeTranslator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,9 +11,6 @@ import java.io.Serializable;
 
 /**
  * (Student)学生
- *
- * @author luozhan@asiainfo.com
- * @since 2020-04-27 10:24:38
  */
 @Data
 @NoArgsConstructor
@@ -34,13 +34,20 @@ public class Student implements Serializable {
     /**
      * 性别
      */
-    @Translate(dictClass = StaticDict.class, groupValue = "sex")
+    // 静态字典翻译和枚举翻译，都可以支持
+    // @Translate(dictClass = StaticDict.class, groupValue = "sex")
+    @Translate(MyDict.SexDict.class)
     private String sex;
     private String sexName;
     /**
      * 年龄
      */
+    @Translate(dictionary = @Dictionary(translator = MyAgeTranslator.class), translateField = "tag")
     private Integer age;
+    /**
+     * 年龄标签，由年龄决定
+     */
+    private String tag;
 
 
 }

@@ -21,8 +21,9 @@ public class SampleTest {
     JdbcTemplate template;
 
     @Test
-    public void testSelect() {
-        // List<Map>翻译
+    public void testTranslate() {
+
+        // 1.List<Map>翻译
         List<Map<String, Object>> maps = template.queryForList("select * from student");
         Translator.parse(maps, Student.class);
         maps.forEach(System.out::println);
@@ -30,7 +31,7 @@ public class SampleTest {
         // {id=2, name=李四, class_id=3, sex=1, age=20, class_name=三年三班, sex_name=女}
         // {id=3, name=周杰伦, class_id=2, sex=0, age=38, class_name=三年二班, sex_name=男}
 
-        // List<entity>翻译
+        // 2.List<entity>翻译
         List<Student> students = template.query("select * from student", new BeanPropertyRowMapper<>(Student.class));
         Translator.parse(students);
         students.forEach(System.out::println);
@@ -38,11 +39,27 @@ public class SampleTest {
         // Student(id=2, name=李四, classId=3, className=三年三班, sex=1, sexName=女, age=20)
         // Student(id=3, name=周杰伦, classId=2, className=三年二班, sex=0, sexName=男, age=38)
 
-        // 单个翻译
+        // 3.单个Entity翻译
         Student student = template.queryForObject("select * from student where id=3", new BeanPropertyRowMapper<>(Student.class));
         Translator.parse(student);
         System.out.println(student);
 
+        // 4.单个Map翻译
+        Map<String, Object> studentMap = template.queryForMap("select * from student where id=3");
+        Translator.parse(studentMap, Student.class);
+        System.out.println(studentMap);
+
+
     }
 
+    @com.robot.translator.core.annotation.Translator
+    public List<Student> queryAllStudents() {
+        return template.query("select * from student", new BeanPropertyRowMapper<>(Student.class));
+
+    }
+
+    @Test
+    public void testAop() {
+        //
+    }
 }

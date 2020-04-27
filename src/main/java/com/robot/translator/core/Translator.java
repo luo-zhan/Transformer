@@ -84,9 +84,9 @@ public class Translator {
             Translate translateConfig = field.getAnnotation(Translate.class);
             // 配置的字典class
             Class<?> dictClass = getDictClass(translateConfig);
-            if (dictClass == void.class) {
-                throw new IllegalArgumentException(String.format("属性名%s上的@Translate注解找不到dictClass或value配置", fieldName));
-            }
+            // if (dictClass == void.class) {
+            //     throw new IllegalArgumentException(String.format("属性名%s上的@Translate注解找不到dictClass或value配置", fieldName));
+            // }
 
             // 获取翻译值写入的字段名
             String translateField = StringUtil.parseCamelTo(getTranslateFieldName(translateConfig, field.getName()), fieldFormatType);
