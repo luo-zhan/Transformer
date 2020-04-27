@@ -41,9 +41,13 @@ public class Translator {
      * @param <T>    Map或Entity
      * @return origin
      */
+    @SuppressWarnings("unchecked")
     public static <T> T parse(T origin, Class<?>... clazz) {
         if (origin == null) {
             return null;
+        }
+        if (origin instanceof List) {
+            return (T) parse((List) origin, clazz);
         }
         return parse(Collections.singletonList(origin), clazz).get(0);
     }
