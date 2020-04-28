@@ -2,7 +2,6 @@ package com.robot.translator.entity;
 
 import com.robot.translator.core.annotation.Dictionary;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -11,7 +10,6 @@ import java.io.Serializable;
  *
  */
 @Data
-@NoArgsConstructor
 @Dictionary(codeColumn = "id", textColumn = "name")
 public class Class implements Serializable {
     private static final long serialVersionUID = -40477702922137712L;

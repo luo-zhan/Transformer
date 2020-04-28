@@ -2,10 +2,8 @@ package com.robot.translator.entity;
 
 import com.robot.translator.core.annotation.Dictionary;
 import com.robot.translator.core.annotation.Translate;
-import com.robot.translator.dict.MyDict;
 import com.robot.translator.translator.MyAgeTranslator;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -13,7 +11,6 @@ import java.io.Serializable;
  * (Student)学生
  */
 @Data
-@NoArgsConstructor
 public class Student implements Serializable {
     private static final long serialVersionUID = -91472499120112751L;
     /**
@@ -36,7 +33,7 @@ public class Student implements Serializable {
      */
     // 静态字典翻译和枚举翻译，都可以支持
     // @Translate(dictClass = StaticDict.class, groupValue = "sex")
-    @Translate(MyDict.SexDict.class)
+    @Translate(dictClass = StaticDict.class, groupValue = "sex")
     private String sex;
     private String sexName;
     /**
