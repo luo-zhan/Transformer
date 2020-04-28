@@ -99,7 +99,7 @@ Translator托管在`jitpack`中，所以需要添加仓库，在pom文件根节�
   <dependency>
     <groupId>com.github.Robot-L</groupId>
     <artifactId>translator</artifactId>
-    <version>1.2</version>
+    <version>1.3</version>
   </dependency>
   <dependency>
     <groupId>org.projectlombok</groupId>
