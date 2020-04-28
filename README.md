@@ -41,7 +41,7 @@ Translator是一款功能全面的数据翻译工具，让业务开发更简单�
         implementation 'com.github.Robot-L:translator:1.3'
     }
     ```
-    ```
+    ```groovy
     allprojects {
         repositories {
             ...
@@ -67,7 +67,7 @@ Translator是一款功能全面的数据翻译工具，让业务开发更简单�
       /**
        * 班主任
        */
-      private String name;
+      private Long teacherId;
   }
   ```
   
