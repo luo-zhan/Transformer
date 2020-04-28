@@ -39,9 +39,11 @@
 我们查询出学生信息给前台展示时应该是：
 
 ```json
-{id:"1", name:"张三", className:"三年一班", sexName:"男", age:"18" }
-{id:"2", name:"李四", className:"三年三班", sexName:"女", age:"20" }
-{id:"3", name:"周杰伦", className:"三年二班", sexName:"男", age:"38"}
+[
+{"id":"1", "name":"张三", "className":"三年一班", "sexName":"男", "age":"18" },
+{"id":"2", "name":"李四", "className":"三年三班", "sexName":"女", "age":"20" },
+{"id":"3", "name":"周杰伦", "className":"三年二班", "sexName":"男", "age":"38"}
+]
 ```
 
 > Question
