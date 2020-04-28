@@ -234,7 +234,7 @@ Student(id=1, name=张三, classId=1, className=三年一班, sex=0, sexName=男
 Student(id=2, name=李四, classId=3, className=三年三班, sex=1, sexName=女, age=20)
 Student(id=3, name=周杰伦, classId=2, className=三年二班, sex=0, sexName=男, age=38)
 ```
-
+>完整的代码示例请移步：[Spring Boot 快速启动示例](https://github.com/Robot-L/translator-sample-quickstart/)
 
 
 ## 总结
