@@ -179,14 +179,14 @@ public class StaticDict {
 public class Student {
     private Long id;
     private String name;
-  	@Translate(dictClass=Class.class)
+    @Translate(dictClass=Class.class)
     private String classId;
-  	@Translate(dictClass=StaticDict.class, groupValue="sex")
+    @Translate(dictClass=StaticDict.class, groupValue="sex")
     private String sex;
     private Integer age;
     // 存放翻译后的值
     private String className;
-  	private String sexName;
+    private String sexName;
 }
 ```
 
