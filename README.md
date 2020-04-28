@@ -1,4 +1,7 @@
 # Translator
+[![GitHub](https://img.shields.io/badge/license-MIT-green.svg)](http://opensource.org/licenses/MIT)
+[![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Robot-L/translator)]()
+[![GitHub last commit](https://img.shields.io/github/last-commit/Robot-L/translator?label=Last%20commit)]()
 
 业务中有没有遇到查询结果中经常需要进行数据字典翻译的情况，如果还在用连表查询或者for循环处理，可以来试试Translator！
 
