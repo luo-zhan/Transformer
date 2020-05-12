@@ -180,7 +180,7 @@ public class Translator {
         Map<String, Object> defaultValueMap = AnnotationType.getInstance(annotationTo.annotationType()).memberDefaults();
         // 若目标注解中全都是默认值（代表没有设置），则直接返回原注解
         // 否则属性填充后会直接改变目标注解的默认值，影响其他引用的地方
-        if (!defaultValueMap.equals(memberValuesTo)) {
+        if (defaultValueMap.equals(memberValuesTo)) {
             return annotationFrom;
         }
         // 如果目标注解属性未设置，则往目标里填充值
