@@ -47,8 +47,12 @@ Translator是一款功能全面的数据翻译工具，只需要几个简单的�
         }
     }
     ```
-  > 以学生和班级为例，学生信息中有一个`班级id`（classId）字段，需要根据班级信息翻译成`班级名称`，在这里班级信息就充当了一个字典。
-* 在字典类上添加`@Dictionary`注解，指定字典表中代表code的列和代表text的列
+    
+  > 需求场景：
+  > 学生表：student(id, name, class_id)，班级表：class(id, name, teacherId)
+  > 学生表中有一个`班级id`（class_id）字段，需要根据班级表的对应记录翻译成`班级名称`
+  
+* 在班级类上添加`@Dictionary`注解标识自己是个字典，指定代表`字典编码`的列`id`和代表`字典文本`的列`name`，表示凡是通过班级字典翻译后，班级id都会被翻译成班级名称
   ```java
   /** 班级信息 */
   @Data
@@ -69,7 +73,7 @@ Translator是一款功能全面的数据翻译工具，只需要几个简单的�
   }
   ```
   
-* 在需要翻译的实体类的字段上添加`@Translate`注解，指向字典类`Class`，同时添加一个字段`className`用于接收翻译值
+* 在需要翻译的`Student`类的字段`classId`上添加`@Translate`注解，指定作为字典的班级类`Class`，同时添加一个字段`className`用于接收班级名称的值
     ```java
     /** 学生信息类 */
     @Data
@@ -87,11 +91,13 @@ Translator是一款功能全面的数据翻译工具，只需要几个简单的�
          */
         @Translate(Class.class)
         private Long classId;
+        
+        // 增加className用于接收翻译后的值，类型必须为String
         private String className;
     }
     ```
   
-* 在查询接口方法上添加`@Translator`注解，指定方法返回值对应翻译配置类`Student`
+* 在查询接口的方法上添加`@Translator`注解，大功告成
   ```java
   /** 学生服务 */
   @Service
@@ -100,12 +106,13 @@ Translator是一款功能全面的数据翻译工具，只需要几个简单的�
       StudentDao dao;
   
       /**
-       * 查询所有学生信息
+       * 查询所有学生信息，加上注解后自动判断方法返回值，并对内容进行翻译
        */
-      @Translator(Student.class)
+      @Translator
       public List<Student> queryAllStudents(){
           return dao.queryAll();
       } 
+     
   }
   ```
   
