@@ -21,37 +21,6 @@ Translator是一款功能全面的数据翻译工具，只需要几个简单的�
 ## How to use
 * 添加 Translator 依赖
 
-    * Maven:
-    ```xml
-    <dependency>
-        <groupId>com.github.Robot-L</groupId>
-        <artifactId>translator</artifactId>
-        <version>1.3</version>
-    </dependency>
-    
-    ```
-    ```xml
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-    ```
-    * Gradle
-    ```groovy
-    dependencies {
-        implementation 'com.github.Robot-L:translator:1.3'
-    }
-    ```
-    ```groovy
-    allprojects {
-        repositories {
-            ...
-            maven { url 'https://jitpack.io' }
-        }
-    }
-    ```
     
   > 需求场景：
   > 学生表：student(id, name, class_id)，班级表：class(id, name, teacherId)
