@@ -1,4 +1,4 @@
-package com.msb.framework.demo.controller;
+package com.msb.framework.demo.bean;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,25 +22,10 @@ public class ResultWrapper<T> {
     }
 
 
-    public ResultWrapper(String code, String message, T data) {
-        this(code, message);
-        this.data = data;
-    }
-
     public static <T> ResultWrapper<T> success(T data) {
         ResultWrapper<T> objectDataResult = new ResultWrapper<>("200", "success");
         objectDataResult.setData(data);
         return objectDataResult;
     }
-
-    public static <T> ResultWrapper<T> success() {
-        return success(null);
-    }
-
-
-    public static <T> ResultWrapper<T> fail(String code, String message) {
-        return new ResultWrapper<>(code, message, null);
-    }
-
 
 }

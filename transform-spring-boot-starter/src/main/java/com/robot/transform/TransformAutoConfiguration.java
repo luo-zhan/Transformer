@@ -3,7 +3,6 @@ package com.robot.transform;
 
 import com.robot.transform.annotation.Transform;
 import com.robot.transform.annotation.TransformDict;
-import com.robot.transform.util.SpringContextUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,17 +22,18 @@ import static com.robot.transform.util.LambdaUtil.sure;
  * 转换器配置类
  *
  * @author R
+ * @date 2022-10-5
  */
 @Configuration
 @ComponentScan("com.**.transformer")
-@Import({TranslatorAspect.class, SpringContextUtil.class})
+@Import(TranslatorAspect.class)
 public class TransformAutoConfiguration implements ApplicationListener<ContextRefreshedEvent> {
-
-//    @ConditionalOnBean(IDictTransformer.class)
 
 
     @Override
+    @SuppressWarnings("all")
     public void onApplicationEvent(ContextRefreshedEvent event) {
+        // 注入自定义字典转换器
         ApplicationContext applicationContext = event.getApplicationContext();
         String dictTransformerBeanName = "dictTransformer";
         if (applicationContext.containsBean(dictTransformerBeanName)) {
@@ -44,7 +44,6 @@ public class TransformAutoConfiguration implements ApplicationListener<ContextRe
             Map<String, Object> memberValues = (Map<String, Object>) sure(() -> field.get(invocationHandler));
             memberValues.put("transformer", applicationContext.getBean(dictTransformerBeanName).getClass());
             field.setAccessible(false);
-            System.out.println(annotation.transformer().getSimpleName());
         }
     }
 }

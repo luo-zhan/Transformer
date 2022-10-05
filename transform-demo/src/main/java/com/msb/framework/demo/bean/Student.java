@@ -1,4 +1,4 @@
-package com.msb.framework.demo.entity;
+package com.msb.framework.demo.bean;
 
 import lombok.Data;
 
