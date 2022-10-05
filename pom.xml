@@ -10,7 +10,7 @@
         <version>2.6.4</version>
         <relativePath/>
     </parent>
-    <groupId>com.robot</groupId>
+    <groupId>io.github.luo-zhan</groupId>
     <artifactId>transformer</artifactId>
     <version>2.0.0-RELEASE</version>
     <name>Transformer</name>
