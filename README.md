@@ -59,7 +59,7 @@ Transformer是一款功能全面的数据转换工具，只需要几个简单的
         implementation 'io.github.luo-zhan:transform-extension-for-mybatis-plus:2.0.0-RELEASE'
     }
     ```
-2. 在VO类的转换属性上标注`@TransformXX`注解
+2. 在VO类的属性上使用`@Transform`注解
     > 例如现在有这样一个需求场景：   
       学生信息包括姓名(name)、性别(sex)、班级(class_id)、班干部(class_leader)
     > ```js
@@ -73,7 +73,7 @@ Transformer是一款功能全面的数据转换工具，只需要几个简单的
     > ```
     > 从数据库中查询出如上数据后，需要将其中的数字值**转换**成文本再传递给前端展示
     
-    VO定义如下：
+    VO定义如下，在转换属性上标注`@TransformX`注解：
 
     ```java
     /** 学生信息VO */
@@ -92,7 +92,7 @@ Transformer是一款功能全面的数据转换工具，只需要几个简单的
          */
         private Integer sex;
         /**
-         * 性别（通过枚举转换）
+         * 性别（通过枚举转换，Sex是性别枚举类）
          */
         @TransformEnum(Sex.class)
         private String sexName;
@@ -101,7 +101,7 @@ Transformer是一款功能全面的数据转换工具，只需要几个简单的
          */
         private Integer classLeader;
         /**
-         * 班干部（通过数据字典转换，字典的group为"classLeader"）
+         * 班干部（通过数据字典转换，字典的组为"classLeader"）
          */
         @TransformDict(group = "classLeader")
         private String classLeaderName;
@@ -110,14 +110,12 @@ Transformer是一款功能全面的数据转换工具，只需要几个简单的
          */
         private Long classId;
          /**
-         * 班级名称（此处是自定义转换注解，通过班级表的id转换成班级名称，自定义注解方式见wiki）
+         * 班级名称（此处是演示的自定义转换注解，通过班级表的id转换成班级名称，自定义转换注解使用方式见wiki）
          */
         @TransformClass
         private String className;
     }
     ```
-
-
 
 
 3. 在查询接口的方法上添加`@Transform`注解，大功告成
@@ -149,7 +147,7 @@ Transformer是一款功能全面的数据转换工具，只需要几个简单的
    }
    ```
   
-4. 前端访问`http://localhost:8080/student/1`
+4. 测试一下，前端访问`http://localhost:8080/student/1`
   响应结果：
   
    ```json
