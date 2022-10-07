@@ -35,7 +35,7 @@ Transformer是一款功能全面的数据转换工具，只需要几个简单的
 
 ## How to use
 
-1. 添加 Transformer 依赖
+1. 添加依赖
 
   * Maven
      ```xml
@@ -52,7 +52,7 @@ Transformer是一款功能全面的数据转换工具，只需要几个简单的
      </dependency>
    
      ```
-    * Gradle
+  * Gradle
     ```groovy
     dependencies {
         implementation 'io.github.luo-zhan:transform-spring-boot-starter:2.0.0-RELEASE'
