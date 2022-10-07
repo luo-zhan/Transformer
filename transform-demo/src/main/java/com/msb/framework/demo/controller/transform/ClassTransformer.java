@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import java.util.Optional;
 
 /**
- * 班级名称翻译器
+ * 班级名称转换器
  *
  * @author R
  * @date 2022-9-29
