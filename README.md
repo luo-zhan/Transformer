@@ -44,7 +44,7 @@ Transformer是一款功能全面的数据转换工具，只需要几个简单的
          <artifactId>transform-spring-boot-starter</artifactId>
          <version>2.0.0-RELEASE</version>
      </dependency>
-    <!-- MybatisPlus扩展，增加外键转换和Page类解包功能 -->
+    <!-- MybatisPlus扩展，增加外键id转换和Page类解包功能，非必须 -->
      <dependency>
          <groupId>io.github.luo-zhan</groupId>
          <artifactId>transform-extension-for-mybatis-plus</artifactId>
@@ -56,6 +56,7 @@ Transformer是一款功能全面的数据转换工具，只需要几个简单的
     ```groovy
     dependencies {
         implementation 'io.github.luo-zhan:transform-spring-boot-starter:2.0.0-RELEASE'
+        // MybatisPlus扩展，增加外键id转换和Page类解包功能，非必须
         implementation 'io.github.luo-zhan:transform-extension-for-mybatis-plus:2.0.0-RELEASE'
     }
     ```
