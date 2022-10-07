@@ -62,7 +62,7 @@ Transformer是一款功能全面的数据转换工具，只需要几个简单的
 2. 在VO类的转换属性上标注`@TransformXX`注解
     > 例如现在有这样一个需求场景：   
       学生信息包括姓名(name)、性别(sex)、班级(class_id)、班干部(class_leader)
-    > ```json
+    > ```js
     > {
     >   "id": 1, 
     >   "name": "周杰伦", 
