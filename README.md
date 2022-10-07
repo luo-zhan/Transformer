@@ -120,40 +120,40 @@ Transformer是一款功能全面的数据转换工具，只需要几个简单的
 
 
 
-* 在查询接口的方法上添加`@Transform`注解，大功告成
-  ```java
-  /** 学生接口 */
-  @RestController
-  @RequestMapping("/student")
-  public class StudentController {
+3. 在查询接口的方法上添加`@Transform`注解，大功告成
+   ```java
+   /** 学生接口 */
+   @RestController
+   @RequestMapping("/student")
+   public class StudentController {
+   
+       /**
+        * 查询学生信息
+        * 加上@Transform注解后利用AOP自动对返回数据中的字段进行转换
+        */
+       @GetMapping("/{id}")
+       @Transform
+       public StudentVO getStudent(@PathVariable Long id) {
+         StudentVO student = ...
+         // 这里假设从数据库查询出来的数据如下：
+         // {
+         //   "id": 1, 
+         //   "name": "周杰伦", 
+         //   "sex": 1,          // 性别，1-男，2-女
+         //   "classId": 32,     // 班级id
+         //   "classLeader": 2   // 班干部，0-普通成员,1-班长,2-音乐委员,3-学习委员
+         // }
+         return student;
+       } 
+      
+   }
+   ```
   
-      /**
-       * 查询学生信息
-       * 加上@Transform注解后利用AOP自动对返回数据中的字段进行转换
-       */
-      @GetMapping("/{id}")
-      @Transform
-      public StudentVO getStudent(@PathVariable Long id) {
-        StudentVO student = ...
-        // 这里假设从数据库查询出来的数据如下：
-        // {
-        //   "id": 1, 
-        //   "name": "周杰伦", 
-        //   "sex": 1,          // 性别，1-男，2-女
-        //   "classId": 32,     // 班级id
-        //   "classLeader": 2   // 班干部，0-普通成员,1-班长,2-音乐委员,3-学习委员
-        // }
-        return student;
-      } 
-     
-  }
-  ```
-  
-* 前端访问`http://localhost:8080/student/1`
+4. 前端访问`http://localhost:8080/student/1`
   响应结果：
   
-  ```json
-  {
+   ```json
+   {
       "id": 1, 
       "name": "周杰伦", 
       "sex": 1,      
@@ -162,12 +162,14 @@ Transformer是一款功能全面的数据转换工具，只需要几个简单的
       "className": "三年二班", 
       "classLeader": 2 
       "classLeaderName": "音乐委员" 
-  }
-  ```
-  完整示例代码见项目中transform-demo模块的StudentController类
+   }
+   ```
+   完整示例代码见项目中transform-demo模块的StudentController类
 
-  > 这里仅展示一小部分功能，详细说明请参阅 [WIKI](https://github.com/Robot-L/Transformer/wiki)
   
 ## License
 
 Transformer is under the Apache-2.0 License.
+
+## WIKI
+这里仅简单介绍效果，更多功能的详细说明请参阅 [指南](https://github.com/luo-zhan/Transformer/wiki)
