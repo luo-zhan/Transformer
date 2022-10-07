@@ -18,7 +18,6 @@ import java.util.List;
 @Data
 @SuppressWarnings("all")
 public class StudentVO {
-    private final Student student;
     private Long id;
     // 名字
     private String name;

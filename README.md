@@ -1,60 +1,84 @@
 # Transformer 2.0
 
-[![GitHub](https://img.shields.io/badge/license-MIT-green.svg)](http://opensource.org/licenses/MIT)
-[![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Robot-L/translator)]()
+[![GitHub](https://img.shields.io/github/license/luo-zhan/Transformer)](http://opensource.org/licenses/apache2.0)
+[![GitHub code size](https://img.shields.io/github/languages/code-size/Robot-L/translator)]()
 [![GitHub last commit](https://img.shields.io/github/last-commit/Robot-L/translator?label=Last%20commit)]()
 
 🎉🎉🎉
 
-2.0来了，由Translator更名为Transformer，代码全部重构，拥抱spring体系，功能更强大更灵活。
+全新的2.0来了，由Translator更名为Transformer，代码全部重构，拥抱spring体系，功能更强大更灵活。
 
 ## What is Transformer
 
-Transformer是一款功能全面的数据转换工具，只需要几个简单的注解配置，即可实现各种姿势的数据转换，抛弃连表查询和累赘的转换逻辑，让开发更简单。
+Transformer是一款功能全面的数据转换工具，只需要几个简单的注解配置，即可实现各种姿势的字段转换，抛弃连表查询和累赘的转换逻辑，让开发更简单。
+
+## Situation
+
+ 你在**查询数据对象返回给前端**时是否也有以下场景：
+ 1. 枚举值编码转换成文本（如性别Sex，“1”要转换成“男”）需要手动转换
+ 2. 数据字典值转换成文本（如订单状态order_status，“1”要转换成“已下单”）需要手动转换
+ 3. 数据对象中的外键id要转换成name，因使用连表查询从而不得已放弃了MybatisPlus的单表增强查询功能
+ 4. 自定义字段转换场景（如年龄介于10-17为少年，18-45为青年...），但代码缺少可复用性，想复用的时候不顺畅      
+
+以上转换场景你会发现都是固定的逻辑，却要在各个不同的需求中重复编写，影响业务开发的效率，Transformer正是用来解决这些问题的。
 
 ## Features
 
-- 多种类型的转换（业务表转换、数据字典表转换、枚举转换、自定义转换）
-- 开箱即用，简单配置几个注解即可实现自动转换
-- 兼容所有数据类型（Entity，Collection，Page，ResultWrapper或其他自定义类型）
-- 极强的扩展性，特殊场景方便的自定义转换实现，且支持自定义转换注解
+- [x] 多种类型的转换（数据字典表转换、枚举转换、表外键转换、自定义转换）
+- [x] 开箱即用，极简的API设计
+- [x] 智能识别返回值类型（如返回值Page、ResultWrapper这种包装类拆包后才是真正的数据）
+- [x] 极强的扩展性，特殊场景如跨服务接口转换，也能方便的自定义实现（支持使用自定义注解） 
+- [ ] 转换结果加入缓存，在集合转换时可以节省资源
+- [ ] 多线程转换，提高转换速度
 
-如果你有兴趣，欢迎PR! :)
+如果你有好的想法或建议，欢迎提issues或PR :)
 
 ## How to use
 
-* 添加 Transformer 依赖
+1. 添加 Transformer 依赖
 
-> 需求场景：
-> 学生表：student(id, name, class_id)，班级表：class(id, name, teacherId)
-> 学生表中有一个`班级id`（class_id）字段，需要根据班级表的对应记录转换成`班级名称`
+  * Maven
+     ```xml
+     <dependency>
+         <groupId>io.github.luo-zhan</groupId>
+         <artifactId>transform-spring-boot-starter</artifactId>
+         <version>2.0.0-RELEASE</version>
+     </dependency>
+    <!-- MybatisPlus扩展，增加外键转换和Page类解包功能 -->
+     <dependency>
+         <groupId>io.github.luo-zhan</groupId>
+         <artifactId>transform-extension-for-mybatis-plus</artifactId>
+         <version>2.0.0-RELEASE</version>
+     </dependency>
+   
+     ```
+    * Gradle
+    ```groovy
+    dependencies {
+        implementation 'io.github.luo-zhan:transform-spring-boot-starter:2.0.0-RELEASE'
+        implementation 'io.github.luo-zhan:transform-extension-for-mybatis-plus:2.0.0-RELEASE'
+    }
+    ```
+2. 在VO类的转换属性上标注`@TransformXX`注解
+    > 例如现在有这样一个需求场景：   
+      学生信息包括姓名(name)、性别(sex)、班级(class_id)、班干部(class_leader)
+    > ```json
+    > {
+    >   "id": 1, 
+    >   "name": "周杰伦", 
+    >   "sex": 1,          // 性别，1-男，2-女，存储在枚举Sex中
+    >   "classId": 32,     // 班级id
+    >   "classLeader": 2   // 班干部，0-普通成员,1-班长,2-音乐委员,3-学习委员，存储在数据字典表中，group为"classLeader"
+    > }
+    > ```
+    > 从数据库中查询出如上数据后，需要将其中的数字值**转换**成文本再传递给前端展示
+    
+    VO定义如下：
 
-* 在班级类上添加`@Dictionary`注解标识自己是个字典，指定代表`字典编码`的列`id`和代表`字典文本`的列`name`，表示凡是通过班级字典转换后，班级id都会被转换成班级名称
-  ```java
-  /** 班级信息 */
-  @Data
-  @Dictionary(codeColumn = "id", textColumn = "name")
-  public class Class {
-      /**
-       * 主键ID
-       */
-      private Long id;
-      /**
-       * 班级名称
-       */
-      private String name;
-      /**
-       * 班主任
-       */
-      private Long teacherId;
-  }
-  ```
-
-* 在需要转换的`Student`类的字段`classId`上添加`@Translate`注解，指定作为字典的班级类`Class`，同时添加一个字段`className`用于接收班级名称的值
     ```java
-    /** 学生信息类 */
+    /** 学生信息VO */
     @Data
-    public class Student {
+    public class StudentVO {
         /**
          * 主键ID
          */
@@ -64,49 +88,86 @@ Transformer是一款功能全面的数据转换工具，只需要几个简单的
          */
         private String name;
         /**
+         * 性别值
+         */
+        private Integer sex;
+        /**
+         * 性别（通过枚举转换）
+         */
+        @TransformEnum(Sex.class)
+        private String sexName;
+        /**
+         * 班干部值
+         */
+        private Integer classLeader;
+        /**
+         * 班干部（通过数据字典转换，字典的group为"classLeader"）
+         */
+        @TransformDict(group = "classLeader")
+        private String classLeaderName;
+        /**
          * 班级id
          */
-        @Translate(Class.class)
         private Long classId;
-        
-        // 增加className用于接收转换后的值，类型必须为String
+         /**
+         * 班级名称（此处是自定义转换注解，通过班级表的id转换成班级名称，自定义注解方式见wiki）
+         */
+        @TransformClass
         private String className;
     }
     ```
 
-* 在查询接口的方法上添加`@Transformer`注解，大功告成
+
+
+
+* 在查询接口的方法上添加`@Transform`注解，大功告成
   ```java
-  /** 学生服务 */
-  @Service
-  public class StudentService {
-      @Resource
-      StudentDao dao;
+  /** 学生接口 */
+  @RestController
+  @RequestMapping("/student")
+  public class StudentController {
   
       /**
-       * 查询所有学生信息，加上注解后自动判断方法返回值，并对内容进行转换
+       * 查询学生信息
+       * 加上@Transform注解后利用AOP自动对返回数据中的字段进行转换
        */
-      @Transformer
-      public List<Student> queryAllStudents(){
-          return dao.queryAll();
+      @GetMapping("/{id}")
+      @Transform
+      public StudentVO getStudent(@PathVariable Long id) {
+        StudentVO student = ...
+        // 这里假设从数据库查询出来的数据如下：
+        // {
+        //   "id": 1, 
+        //   "name": "周杰伦", 
+        //   "sex": 1,          // 性别，1-男，2-女
+        //   "classId": 32,     // 班级id
+        //   "classLeader": 2   // 班干部，0-普通成员,1-班长,2-音乐委员,3-学习委员
+        // }
+        return student;
       } 
      
   }
   ```
   
-* 测试
-  ```java
-  List<Student> students = studentService.queryAllStudents();
-  students.forEach(System.out::println);
-  ```
-  控制台输出：
+* 前端访问`http://localhost:8080/student/1`
+  响应结果：
   
-  ```sh
-  Student(id=1, name=张三, classId=1, className=三年一班)
-  Student(id=2, name=李四, classId=3, className=三年三班)
-  Student(id=3, name=周杰伦, classId=2, className=三年二班)
+  ```json
+  {
+      "id": 1, 
+      "name": "周杰伦", 
+      "sex": 1,      
+      "sexName": "男",  
+      "classId": 32,   
+      "className": "三年二班", 
+      "classLeader": 2 
+      "classLeaderName": "音乐委员" 
+  }
   ```
+  完整示例代码见项目中transform-demo模块的StudentController类
+
   > 这里仅展示一小部分功能，详细说明请参阅 [WIKI](https://github.com/Robot-L/Transformer/wiki)
   
 ## License
 
-Transformer is under the MIT License.
+Transformer is under the Apache-2.0 License.
