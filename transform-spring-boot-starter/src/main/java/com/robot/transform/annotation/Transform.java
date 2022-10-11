@@ -16,7 +16,7 @@ import java.lang.annotation.*;
 public @interface Transform {
 
     /**
-     * 指定翻译器
+     * 指定转换器
      */
     Class<? extends Transformer> transformer() default Transformer.class;
 
