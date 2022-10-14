@@ -174,3 +174,7 @@ Transformer is under the Apache-2.0 License.
 
 ## WIKI
 这里仅简单介绍效果，更多功能的详细说明请参阅 [指南](https://github.com/luo-zhan/Transformer/wiki)
+
+## Discussions
+有任何想说的？来讨论组内畅所欲言
+[💬进入讨论组](https://github.com/luo-zhan/Transformer/discussions)
