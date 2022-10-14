@@ -9,7 +9,7 @@
 全新的2.0来了，由Translator更名为Transformer，代码全部重构，拥抱spring体系，功能更强大更灵活。
 
 ## What is Transformer
-![image](https://user-images.githubusercontent.com/16471200/195747491-e05903d4-621f-4c14-a270-316bb45c7234.png)
+![image](https://user-images.githubusercontent.com/16471200/195748056-574b9129-fa19-4281-a3a5-6d1bba96b429.png)
 
 Transformer是一款功能全面的数据转换工具，只需要几个简单的注解配置，即可实现各种姿势的字段转换，抛弃连表查询和累赘的转换逻辑，让开发更简单。
 
