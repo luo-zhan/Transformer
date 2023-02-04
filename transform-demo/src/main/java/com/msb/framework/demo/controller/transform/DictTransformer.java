@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Resource;
 
 /**
- * 数据字典示例
+ * 数据字典转换器
  *
  * @author R
  */

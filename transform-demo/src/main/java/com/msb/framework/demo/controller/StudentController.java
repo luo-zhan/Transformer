@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.msb.framework.demo.bean.ResultWrapper;
 import com.msb.framework.demo.bean.StudentVO;
+import com.msb.framework.demo.config.TransformConfig;
 import com.msb.framework.demo.enums.Sex;
 import com.msb.framework.demo.service.ClassService;
 import com.msb.framework.demo.service.DictionaryService;
@@ -11,6 +12,7 @@ import com.msb.framework.demo.service.StudentService;
 import com.msb.framework.demo.service.convert.StudentConvert;
 import com.robot.transform.annotation.Transform;
 import com.robot.transform.component.Dict;
+import com.robot.transform.component.UnWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,7 +44,7 @@ public class StudentController {
     private StudentService studentService;
 
     /**
-     * 原始代码（手写转换逻辑）
+     * 原始代码（手写转换逻辑，作为对比）
      */
     @GetMapping("/old/{id}")
     public StudentVO getStudentOld(@PathVariable Long id) {
@@ -63,7 +65,8 @@ public class StudentController {
     }
 
     /**
-     * 使用转换插件，转换普通VO
+     * 1、使用转换插件，转换普通对象
+     * 转换配置在StudentVO中，下同
      */
     @GetMapping("/{id}")
     @Transform
@@ -72,7 +75,7 @@ public class StudentController {
     }
 
     /**
-     * 使用转换插件，转换List
+     * 2、使用转换插件，转换List
      */
     @GetMapping("/list")
     @Transform
@@ -84,7 +87,10 @@ public class StudentController {
     }
 
     /**
-     * 使用转换插件，转换包装类Page
+     * 3、使用转换插件，转换包装类Page
+     * Page解包器由插件扩展包-mybatisPlus扩展包提供
+     *
+     * @see UnWrapper
      */
     @GetMapping("/page")
     @Transform
@@ -93,7 +99,10 @@ public class StudentController {
     }
 
     /**
-     * 使用转换插件，转换包装类ResultWrapper
+     * 4、使用转换插件，转换包装类ResultWrapper
+     * ResultWrapper解包器在项目实际使用时需自己实现
+     *
+     * @see TransformConfig.ResultUnWrapper
      */
     @GetMapping("/wrapper")
     @Transform
