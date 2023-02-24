@@ -2,6 +2,8 @@ package com.robot.transform.component;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 字典bean
  * 只有code和text，可用于展示下拉框
@@ -9,7 +11,7 @@ import lombok.Data;
  * @author R
  */
 @Data
-public class DictBean<T> implements Dict<T> {
-    private final T code;
+public class DictBean implements Dict<Serializable> {
+    private final Serializable code;
     private final String text;
 }

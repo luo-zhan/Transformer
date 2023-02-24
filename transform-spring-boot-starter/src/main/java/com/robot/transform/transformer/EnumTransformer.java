@@ -5,6 +5,7 @@ import com.robot.transform.component.Dict;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
+import java.io.Serializable;
 
 
 /**
@@ -13,7 +14,7 @@ import javax.annotation.Nonnull;
  * @author R
  */
 @Component
-public class EnumTransformer<T> implements Transformer<T, TransformEnum> {
+public class EnumTransformer<T extends Serializable> implements Transformer<T, TransformEnum> {
 
     @Override
     @SuppressWarnings("unchecked")

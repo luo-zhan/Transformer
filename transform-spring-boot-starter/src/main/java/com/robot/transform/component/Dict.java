@@ -1,5 +1,8 @@
 package com.robot.transform.component;
 
+import lombok.experimental.UtilityClass;
+
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +22,7 @@ import java.util.stream.Stream;
  * @author R
  * @date 2021-12
  */
-public interface Dict<T> {
+public interface Dict<T extends Serializable> {
     /**
      * 通过code获取value
      *
@@ -27,7 +30,7 @@ public interface Dict<T> {
      * @param code  code
      * @return text
      */
-    static <T> String getTextByCode(Class<? extends Dict<T>> clazz, T code) {
+    static <T extends Serializable> String getTextByCode(Class<? extends Dict<T>> clazz, T code) {
         return Stream.of(clazz.getEnumConstants())
                 .filter((Dict<T> e) -> e.getCode().equals(code))
                 .map(Dict::getText)
@@ -41,7 +44,7 @@ public interface Dict<T> {
      * @param text  text
      * @return code
      */
-    static <T> T getCodeByText(Class<? extends Dict<T>> clazz, String text) {
+    static <T extends Serializable> T getCodeByText(Class<? extends Dict<T>> clazz, String text) {
         return Stream.of(clazz.getEnumConstants())
                 .filter((Dict<T> e) -> e.getText().equals(text))
                 .map(Dict::getCode)
@@ -58,7 +61,7 @@ public interface Dict<T> {
      * @return 字典枚举实例
      */
     @SuppressWarnings("unchecked")
-    static <T, R extends Dict<T>> R getByCode(Class<? extends Dict<T>> clazz, T code) {
+    static <T extends Serializable, R extends Dict<T>> R getByCode(Class<? extends Dict<T>> clazz, T code) {
         return Stream.of(clazz.getEnumConstants())
                 .filter((Dict<T> e) -> (e.getCode().equals(code)))
                 .map(v -> (R) v)
@@ -73,7 +76,7 @@ public interface Dict<T> {
      * @return List
      */
     @SafeVarargs
-    static <T, E extends Dict<T>> List<Dict<T>> getItems(E... enums) {
+    static <T extends Serializable, E extends Dict<T>> List<Dict<T>> getItems(E... enums) {
         return Stream.of(enums)
                 .map(DictPool::getDict)
                 .collect(Collectors.toList());
@@ -87,7 +90,7 @@ public interface Dict<T> {
      */
     @SafeVarargs
     @SuppressWarnings("unchecked")
-    static <T, E extends Dict<T>> List<Dict<T>> getItemsExclude(E... exclude) {
+    static <T extends Serializable, E extends Dict<T>> List<Dict<T>> getItemsExclude(E... exclude) {
         Class<Dict<T>> clazz = (Class<Dict<T>>) exclude.getClass().getComponentType();
         Dict<T>[] allEnum = clazz.getEnumConstants();
         List<Dict<T>> excludeList = Arrays.asList(exclude);
@@ -104,7 +107,7 @@ public interface Dict<T> {
      * @param clazz 字典枚举类
      * @return List
      */
-    static <T> List<Dict<T>> getAll(Class<? extends Dict<T>> clazz) {
+    static <T extends Serializable> List<Dict<T>> getAll(Class<? extends Dict<T>> clazz) {
         Map<String, Field> fieldCache = Arrays.stream(clazz.getDeclaredFields()).
                 filter(Field::isEnumConstant).
                 collect(Collectors.toMap(Field::getName, Function.identity()));
@@ -144,24 +147,19 @@ public interface Dict<T> {
     }
 
 
-    @SuppressWarnings("all")
+    @UtilityClass
     class DictPool {
-        private static final Map<Dict, DictBean> DICT_MAP = new ConcurrentHashMap<>();
+        private static final Map<Dict<?>, DictBean> DICT_MAP = new ConcurrentHashMap<>();
 
-        private static final Map<String, Class<? extends Dict>> DICT_NAME_CLASS_MAP = new ConcurrentHashMap<>();
 
-        static <T> void putDict(Dict<T> dict, T code, String text) {
-            DICT_NAME_CLASS_MAP.put(dict.getClass().getName(), dict.getClass());
-            DICT_MAP.put(dict, new DictBean<>(code, text));
+        static <T extends Serializable> void putDict(Dict<T> dict, T code, String text) {
+            DICT_MAP.put(dict, new DictBean(code, text));
         }
 
-        public static List<Dict<Object>> getDict(String dictName) {
-            Class<? extends Dict> aClass = DICT_NAME_CLASS_MAP.get(dictName);
-            return Dict.getAll((Class<? extends Dict<Object>>) aClass);
-        }
 
-        static <K extends Dict<T>, T> DictBean<T> getDict(K dict) {
-            return DICT_MAP.get(dict);
+        @SuppressWarnings("unchecked")
+        static <K extends Dict<T>, T extends Serializable> Dict<T> getDict(K dict) {
+            return (Dict<T>) DICT_MAP.get(dict);
         }
 
 
