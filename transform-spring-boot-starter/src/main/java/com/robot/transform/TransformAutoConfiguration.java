@@ -3,6 +3,7 @@ package com.robot.transform;
 
 import com.robot.transform.annotation.Transform;
 import com.robot.transform.annotation.TransformDict;
+import com.robot.transform.transformer.EnumTransformer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.ComponentScan;
@@ -20,13 +21,14 @@ import static com.robot.transform.util.LambdaUtil.sure;
 
 /**
  * 转换器配置类
+ * 约定自定义转换器都放在api包的transformer目录下，方便给其他模块使用
  *
  * @author R
  * @date 2022-10-5
  */
 @Configuration
 @ComponentScan("com.**.transformer")
-@Import(TranslatorAspect.class)
+@Import({TranslatorAspect.class, EnumTransformer.class})
 public class TransformAutoConfiguration implements ApplicationListener<ContextRefreshedEvent> {
 
 

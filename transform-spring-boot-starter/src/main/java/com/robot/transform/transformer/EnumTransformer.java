@@ -2,7 +2,6 @@ package com.robot.transform.transformer;
 
 import com.robot.transform.annotation.TransformEnum;
 import com.robot.transform.component.Dict;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
 import java.io.Serializable;
@@ -13,7 +12,6 @@ import java.io.Serializable;
  *
  * @author R
  */
-@Component
 public class EnumTransformer<T extends Serializable> implements Transformer<T, TransformEnum> {
 
     @Override
@@ -21,6 +19,5 @@ public class EnumTransformer<T extends Serializable> implements Transformer<T, T
     public String transform(@Nonnull T enumCode, @Nonnull TransformEnum annotation) {
         return Dict.getTextByCode((Class<? extends Dict<T>>) annotation.value(), enumCode);
     }
-
 
 }
