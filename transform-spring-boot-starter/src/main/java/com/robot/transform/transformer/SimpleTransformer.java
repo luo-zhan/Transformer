@@ -10,7 +10,7 @@ import javax.annotation.Nullable;
  *
  * @author R
  */
-public interface SimpleTransformer<T> extends Transformer<T, Transform> {
+public interface SimpleTransformer<T,R> extends Transformer<T, Transform,R> {
     /**
      * 转换
      *
@@ -19,7 +19,7 @@ public interface SimpleTransformer<T> extends Transformer<T, Transform> {
      * @return 转换后的值
      */
     @Override
-    default String transform(@Nonnull T originalValue, @Nullable Transform transform) {
+    default R transform(@Nonnull T originalValue, @Nullable Transform transform) {
         return transform(originalValue);
     }
 
@@ -29,7 +29,7 @@ public interface SimpleTransformer<T> extends Transformer<T, Transform> {
      * @param originalValue 原始值
      * @return 转换后的值
      */
-    String transform(@Nonnull T originalValue);
+    R transform(@Nonnull T originalValue);
 
 
 }

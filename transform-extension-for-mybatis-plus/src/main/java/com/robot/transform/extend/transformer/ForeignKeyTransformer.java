@@ -19,7 +19,7 @@ import java.lang.reflect.InvocationTargetException;
  * @see TransformFK （Mapper转换注解）
  */
 @Slf4j
-public class ForeignKeyTransformer implements Transformer<Serializable, TransformFK> {
+public class ForeignKeyTransformer implements Transformer<Serializable, TransformFK,String> {
 
     @Override
     public String transform(@Nonnull Serializable id, @Nonnull TransformFK annotation) {

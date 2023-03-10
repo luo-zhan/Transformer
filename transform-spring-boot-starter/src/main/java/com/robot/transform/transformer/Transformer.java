@@ -10,7 +10,7 @@ import java.lang.annotation.Annotation;
  * @author R
  * @date 2022-9-27
  */
-public interface Transformer<T, A extends Annotation> {
+public interface Transformer<T, A extends Annotation,R> {
 
 
     /**
@@ -20,5 +20,5 @@ public interface Transformer<T, A extends Annotation> {
      * @param annotation    自定义注解
      * @return 翻译后的值
      */
-    String transform(@Nonnull T originalValue, A annotation);
+    R transform(@Nonnull T originalValue, A annotation);
 }

@@ -12,7 +12,7 @@ import java.io.Serializable;
  *
  * @author R
  */
-public class EnumTransformer<T extends Serializable> implements Transformer<T, TransformEnum> {
+public class EnumTransformer<T extends Serializable> implements Transformer<T, TransformEnum,String> {
 
     @Override
     @SuppressWarnings("unchecked")

@@ -30,4 +30,6 @@ public @interface Transform {
     boolean async() default false;
 
     int cacheTime() default -1;
+
+    Class returnType() default String.class;
 }

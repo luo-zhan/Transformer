@@ -15,7 +15,7 @@ import java.util.Optional;
  * @date 2022-9-29
  */
 @Component
-public class ClassTransformer implements SimpleTransformer<Long> {
+public class ClassTransformer implements SimpleTransformer<Long,String> {
 
     @Resource
     private ClassService classService;

@@ -49,11 +49,23 @@ public class TransformUtil {
             // 循环处理需要转换的字段，字段上的注解链上需要有@Transform，且字段类型必须为String
             Arrays.stream(declaredFields)
                     // 只转换String类型的属性，其他类型的属性代表是嵌套情况需要过滤掉，后面处理
-                    .filter(field -> field.getType() == String.class && AnnotatedElementUtils.isAnnotated(field, Transform.class))
+                    .filter(field -> {
+                        if (!AnnotatedElementUtils.isAnnotated(field, Transform.class)) {
+                            return false;
+                        }
+                        Transform transform = AnnotatedElementUtils.getMergedAnnotation(field, Transform.class);
+                        return field.getType() == String.class || transform.returnType() == field.getType();
+                    })
                     .forEach(field -> transformField(bean, field));
             // 转换嵌套字段，字段上需要标注@Transform且字段类型不为String
             Arrays.stream(declaredFields)
-                    .filter(field -> field.getType() != String.class && field.isAnnotationPresent(Transform.class))
+                    .filter(field -> {
+                        if (!AnnotatedElementUtils.isAnnotated(field, Transform.class)) {
+                            return false;
+                        }
+                        Transform transform = AnnotatedElementUtils.getMergedAnnotation(field, Transform.class);
+                        return field.getType() == String.class || transform.returnType() != field.getType();
+                    })
                     .forEach(field -> {
                         // 递归转换
                         Object propertyValue = sure(() -> readMethodInvoke(bean, field.getName()));
@@ -81,12 +93,12 @@ public class TransformUtil {
         Assert.isTrue(transformerClass != null, "注解配置有误，" + transformAnnotation.getClass().getSimpleName() + "的transformer未配置具体实现类");
         @SuppressWarnings("unchecked")
         // 获取转换器及转换器绑定的注解
-        Transformer<Object, Annotation> transformer = SpringContextUtil.getBean(transformerClass);
+        Transformer<Object, Annotation,Object> transformer = SpringContextUtil.getBean(transformerClass);
         Annotation annotation = getAnnotationOfTransformer(transformer, field, transformAnnotation);
         // 执行转换逻辑
-        String result = transformer.transform(originalFieldValue, annotation);
+        Object result = transformer.transform(originalFieldValue, annotation);
         // 转换结果写入当前字段
-        sure(() -> writeMethodInvoke(bean, field.getName(), String.class, result));
+        sure(() -> writeMethodInvoke(bean, field.getName(), transformAnnotation.returnType(), result));
     }
 
     /**
@@ -94,7 +106,7 @@ public class TransformUtil {
      * 如果是SimpleTransformer的子类，则绑定的注解默认都是@Transform
      */
     @Nullable
-    private Annotation getAnnotationOfTransformer(Transformer<Object, Annotation> transformer, Field field, Transform transformAnnotation) {
+    private Annotation getAnnotationOfTransformer(Transformer<Object, Annotation,Object> transformer, Field field, Transform transformAnnotation) {
         // Transformer上有两个泛型，第一个是转换前的值类型，第二个是是自定义注解类型
         Class<?>[] genericTypes = GenericTypeResolver.resolveTypeArguments(transformer.getClass(), Transformer.class);
         Assert.isTrue(genericTypes != null, "转换错误！实现Transform接口必须指定泛型：" + transformer.getClass().getSimpleName());

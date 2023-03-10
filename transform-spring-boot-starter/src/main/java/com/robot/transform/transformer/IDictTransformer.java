@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
  *
  * @author R
  */
-public interface IDictTransformer<T> extends Transformer<T, TransformDict> {
+public interface IDictTransformer<T> extends Transformer<T, TransformDict,String> {
     /**
      * 转换
      *
