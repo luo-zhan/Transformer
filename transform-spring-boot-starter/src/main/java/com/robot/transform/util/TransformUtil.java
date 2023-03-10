@@ -64,7 +64,7 @@ public class TransformUtil {
                             return false;
                         }
                         Transform transform = AnnotatedElementUtils.getMergedAnnotation(field, Transform.class);
-                        return field.getType() == String.class || transform.returnType() != field.getType();
+                        return  transform.returnType() != field.getType();
                     })
                     .forEach(field -> {
                         // 递归转换
