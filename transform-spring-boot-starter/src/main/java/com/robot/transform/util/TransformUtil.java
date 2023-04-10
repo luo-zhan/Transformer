@@ -149,11 +149,11 @@ public class TransformUtil {
         String possibleNameA = StringUtils.replace(transformFieldName, "Name", "");
         String possibleNameB = StringUtils.replace(transformFieldName, "Name", "Id");
         String possibleNameC = StringUtils.replace(transformFieldName, "Name", "Code");
-        List<String> nameList = Arrays.asList(possibleNameA, possibleNameB, possibleNameC);
+        List<String> possibleNameList = Arrays.asList(possibleNameA, possibleNameB, possibleNameC);
         // 匹配bean属性列表
         for (Field beanField : bean.getClass().getDeclaredFields()) {
             String fieldName = beanField.getName();
-            if (nameList.contains(fieldName)) {
+            if (possibleNameList.contains(fieldName)) {
                 // 更新注解属性值，相当于做了个缓存
                 updateAnnotationProxy(transform, "from", fieldName);
                 return fieldName;
