@@ -7,6 +7,7 @@ import com.robot.transform.annotation.TransformDict;
 import com.robot.transform.annotation.TransformEnum;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,12 +42,13 @@ public class StudentVO {
 
     // 班级名称（自定义转换：根据班级id查询name）
     @TransformClass
+    // 下面这种方式为原始写法，可简化成上面的方式
     // @Transform(from = "classId", transformer = ClassTransformer.class)
     private String className;
 
     // 小组成员（嵌套转换）
     @Transform
-    private List<StudentVO> team;
+    private List<StudentVO> team = new ArrayList<>();
 
     // 同桌（嵌套转换）
     @Transform

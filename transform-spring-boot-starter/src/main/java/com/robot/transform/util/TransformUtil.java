@@ -1,6 +1,5 @@
 package com.robot.transform.util;
 
-
 import com.robot.transform.annotation.Transform;
 import com.robot.transform.component.TransformBean;
 import com.robot.transform.transformer.Transformer;
@@ -11,6 +10,7 @@ import org.springframework.core.GenericTypeResolver;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.Assert;
+import org.springframework.util.ReflectionUtils;
 
 import javax.annotation.Nullable;
 import java.lang.annotation.Annotation;
@@ -18,7 +18,7 @@ import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.robot.transform.util.LambdaUtil.sure;
+
 
 /**
  * 转换工具类
@@ -54,11 +54,8 @@ public class TransformUtil {
             // 转换嵌套字段，字段上需要标注@Transform且字段类型不为String
             Arrays.stream(declaredFields)
                     .filter(field -> field.getType() != String.class && field.isAnnotationPresent(Transform.class))
-                    .forEach(field -> {
-                        // 递归转换
-                        Object propertyValue = sure(() -> readMethodInvoke(bean, field.getName()));
-                        transform(propertyValue);
-                    });
+                    // 递归转换，此时字段类型可能是Bean或者集合
+                    .forEach(field -> transform(getFieldValue(bean, field.getName())));
         });
     }
 
@@ -72,13 +69,13 @@ public class TransformUtil {
         Transform transformAnnotation = getTransformAnnotation(field);
         // 拿原字段值，如果为null则跳过转换
         String originalFieldName = getOriginalFieldName(bean, field, transformAnnotation);
-        Object originalFieldValue = sure(() -> readMethodInvoke(bean, originalFieldName));
+        Object originalFieldValue = getFieldValue(bean, originalFieldName);
         if (originalFieldValue == null) {
             return;
         }
         String result = transformField(field, originalFieldValue, transformAnnotation);
         // 转换结果写入当前字段
-        sure(() -> writeMethodInvoke(bean, field.getName(), String.class, result));
+        setFieldValue(bean, field.getName(), result);
     }
 
     @SuppressWarnings("all")
@@ -93,7 +90,6 @@ public class TransformUtil {
             // 执行转换逻辑
             return transformer.transform(originalFieldValue, annotation);
         });
-
     }
 
     /**
@@ -126,7 +122,6 @@ public class TransformUtil {
      * 如果没有显示指定将自动推断，并缓存
      */
     private String getOriginalFieldName(Object bean, Field field, Transform transform) {
-
         if (!transform.from().isEmpty()) {
             return transform.from();
         }
@@ -151,43 +146,35 @@ public class TransformUtil {
 
     /**
      * 动态更新注解值，用于缓存提升性能
-     * 注意该方法仅针对spring对注解的代理有效
+     * 注意该方法仅针对spring代理的注解有效
      */
     @SuppressWarnings("all")
     private static void updateAnnotationProxy(Annotation annotation, String fieldName, Object value) {
-        InvocationHandler h = Proxy.getInvocationHandler(annotation);
-        // 代理类中有个valueCache属性，记录了原始注解的值
-        Field field = sure(() -> h.getClass().getDeclaredField("valueCache"));
-        field.setAccessible(true);
-        Map<String, Object> memberValues = (Map<String, Object>) sure(() -> field.get(h));
+        InvocationHandler invocationHandler = Proxy.getInvocationHandler(annotation);
+        // 代理类中有个valueCache属性，记录了原始注解的值，通过反射修改该值即可达到缓存效果
+        Map<String, Object> memberValues = (Map<String, Object>) getFieldValue(invocationHandler, "valueCache");
         memberValues.put(fieldName, value);
     }
-
 
     /**
      * 读取属性值
      */
-    public static Object readMethodInvoke(Object bean, String fieldName) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method method = bean.getClass().getDeclaredMethod("get" + capitalize(fieldName));
-        return method.invoke(bean);
+    private static Object getFieldValue(Object bean, String fieldName) {
+        Field field = ReflectionUtils.findField(bean.getClass(), fieldName);
+        Assert.notNull(field, "未找到" + bean.getClass().getSimpleName() + "中的" + fieldName + "属性");
+        ReflectionUtils.makeAccessible(field);
+        return ReflectionUtils.getField(field, bean);
     }
 
     /**
      * 给属性设值
      */
-    public static <T> void writeMethodInvoke(Object bean, String fieldName, Class<T> parameterType, T parameter) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method method = bean.getClass().getDeclaredMethod("set" + capitalize(fieldName), parameterType);
-        method.invoke(bean, parameter);
+    private static <T> void setFieldValue(Object bean, String fieldName, T parameter) {
+        Field field = ReflectionUtils.findField(bean.getClass(), fieldName);
+        Assert.notNull(field, "未找到" + bean.getClass().getSimpleName() + "中的" + fieldName + "属性");
+        ReflectionUtils.makeAccessible(field);
+        ReflectionUtils.setField(field, bean, parameter);
     }
 
-    /**
-     * 首字母大写
-     */
-    private static String capitalize(String name) {
-        if (name == null || name.length() == 0) {
-            return name;
-        }
-        return name.substring(0, 1).toUpperCase() + name.substring(1);
-    }
 }
 

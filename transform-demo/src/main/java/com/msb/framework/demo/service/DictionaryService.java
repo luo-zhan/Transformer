@@ -23,8 +23,15 @@ public class DictionaryService {
         MAP.put(3, "学习委员");
     }
 
+    /**
+     * 根据分组和code获取文本
+     *
+     * @param group 分组
+     * @param code code
+     * @return 文本
+     */
     public String getText(String group, Integer code) {
-        // 班干部字典
+        // 班干部字典，模拟从db中查询
         String classLeader = "classLeader";
         if (classLeader.equals(group)) {
             return MAP.get(code);
