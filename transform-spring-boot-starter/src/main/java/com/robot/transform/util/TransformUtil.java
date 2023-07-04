@@ -2,6 +2,7 @@ package com.robot.transform.util;
 
 
 import com.robot.transform.annotation.Transform;
+import com.robot.transform.component.TransformBean;
 import com.robot.transform.transformer.Transformer;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,6 @@ import org.springframework.util.Assert;
 import javax.annotation.Nullable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
-import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -29,7 +29,7 @@ import static com.robot.transform.util.LambdaUtil.sure;
 @Slf4j
 @UtilityClass
 public class TransformUtil {
-    private static final Map<Field, Transform> ANNOTATION_CACHE = new ConcurrentHashMap<>(1000);
+    private static final Map<Field, TransformBean> TRANSFORM_CACHE = new ConcurrentHashMap<>(1000);
 
     /**
      * 转换对象，支持集合(Collection)或者单个bean
@@ -76,17 +76,24 @@ public class TransformUtil {
         if (originalFieldValue == null) {
             return;
         }
-        @SuppressWarnings("all")
-        Class<? extends Transformer> transformerClass = transformAnnotation.transformer();
-        Assert.isTrue(transformerClass != null, "注解配置有误，" + transformAnnotation.getClass().getSimpleName() + "的transformer未配置具体实现类");
-        @SuppressWarnings("unchecked")
-        // 获取转换器及转换器绑定的注解
-        Transformer<Object, Annotation> transformer = SpringContextUtil.getBean(transformerClass);
-        Annotation annotation = getAnnotationOfTransformer(transformer, field, transformAnnotation);
-        // 执行转换逻辑
-        String result = transformer.transform(originalFieldValue, annotation);
+        String result = transformField(field, originalFieldValue, transformAnnotation);
         // 转换结果写入当前字段
         sure(() -> writeMethodInvoke(bean, field.getName(), String.class, result));
+    }
+
+    @SuppressWarnings("all")
+    private String transformField(Field field, Object originalFieldValue, Transform transformAnnotation) {
+        Class<? extends Transformer> transformerClass = transformAnnotation.transformer();
+        // 从缓存中获取转换结果
+        TransformBean transformBean = TRANSFORM_CACHE.computeIfAbsent(field, k -> new TransformBean(transformAnnotation));
+        return transformBean.getTransformResultCache().computeIfAbsent(originalFieldValue, k -> {
+            // 获取转换器及属性上的自定义注解
+            Transformer<Object, Annotation> transformer = SpringContextUtil.getBean(transformerClass);
+            Annotation annotation = getAnnotationOfField(transformer, field);
+            // 执行转换逻辑
+            return transformer.transform(originalFieldValue, annotation);
+        });
+
     }
 
     /**
@@ -94,37 +101,15 @@ public class TransformUtil {
      * 如果是SimpleTransformer的子类，则绑定的注解默认都是@Transform
      */
     @Nullable
-    private Annotation getAnnotationOfTransformer(Transformer<Object, Annotation> transformer, Field field, Transform transformAnnotation) {
+    @SuppressWarnings("unchecked")
+    private Annotation getAnnotationOfField(Transformer<Object, Annotation> transformer, Field field) {
         // Transformer上有两个泛型，第一个是转换前的值类型，第二个是是自定义注解类型
         Class<?>[] genericTypes = GenericTypeResolver.resolveTypeArguments(transformer.getClass(), Transformer.class);
         Assert.isTrue(genericTypes != null, "转换错误！实现Transform接口必须指定泛型：" + transformer.getClass().getSimpleName());
         Class<?> transformerAnnotationType = genericTypes[1];
-        @SuppressWarnings("unchecked")
         // 如果转换器未绑定自定义注解，此处泛型就为默认的@Transform注解
         // 否则获取字段上标注的转换器绑定自定义注解
-        Annotation annotation = (transformerAnnotationType == Transform.class) ?
-                transformAnnotation : AnnotationUtils.getAnnotation(field, (Class<? extends Annotation>) transformerAnnotationType);
-        checkAnnotationOfTransformer(annotation, field, transformerAnnotationType);
-        return annotation;
-    }
-
-    /**
-     * 检查自定义注解
-     */
-    private void checkAnnotationOfTransformer(Annotation annotation, Field field, Class<?> transformerAnnotationType) {
-        if (annotation == null) {
-            String beanName = field.getDeclaringClass().getSimpleName();
-            String fieldName = field.getName();
-            String annotationName = transformerAnnotationType.getSimpleName();
-            if (transformerAnnotationType.getDeclaredMethods().length > 1) {
-                // 如果自定义注解的方法超过一个，说明该注解有自定义功能，此时只用@Translate是错误的，应直接报错提示开发者改正
-                throw new IllegalArgumentException(beanName + "属性" + fieldName + "上的注解配置错误，缺少注解@" + annotationName);
-            } else {
-                // 如果自定义注解的方法只有一个（就是from），说明该自定义注解只是为了简化原注解，无新增自定义功能
-                // 此时仍可以使用@Translate注解，从而在转换器升级绑定了自定义注解时还能保持向下兼容
-                log.warn(MessageFormat.format("{0}类的属性{1}上的「@Transform」注解配置方式已过时，建议替换为新注解「@{2}」", beanName, fieldName, annotationName));
-            }
-        }
+        return (transformerAnnotationType == Transform.class) ?  null : AnnotationUtils.getAnnotation(field, (Class<? extends Annotation>) transformerAnnotationType);
     }
 
     /**
@@ -132,12 +117,13 @@ public class TransformUtil {
      * ps.这里实际缓存的是注解的代理对象
      */
     private Transform getTransformAnnotation(Field field) {
-        return ANNOTATION_CACHE.computeIfAbsent(field, k -> AnnotatedElementUtils.getMergedAnnotation(field, Transform.class));
+        TransformBean transformBean = TRANSFORM_CACHE.computeIfAbsent(field, k -> new TransformBean(AnnotatedElementUtils.getMergedAnnotation(field, Transform.class)));
+        return transformBean.getTransformAnnotation();
     }
 
     /**
      * 获取原字段名称
-     * 如果没有显示指定将自动推断
+     * 如果没有显示指定将自动推断，并缓存
      */
     private String getOriginalFieldName(Object bean, Field field, Transform transform) {
 
