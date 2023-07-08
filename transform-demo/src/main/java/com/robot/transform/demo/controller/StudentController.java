@@ -86,8 +86,8 @@ public class StudentController {
      * @link 启动项目后点击链接 <a href="http://localhost:8080/student/list/100">查看效果</a>
      */
     @GetMapping("/list/{number}")
-    @Transform(async = true)
-    public List<StudentVO> getStudentForList(int number) {
+    @Transform
+    public List<StudentVO> getStudentForList(@PathVariable Integer number) {
         // 示例代码，实际情况下应从db获取
         List<StudentVO> list = new ArrayList<>();
         for (int i = 0; i < number; i++) {
