@@ -1,4 +1,4 @@
-package com.msb.framework.demo.test;
+package com.robot.framework.demo.test;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONWriter;

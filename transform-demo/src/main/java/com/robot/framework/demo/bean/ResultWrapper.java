@@ -1,4 +1,4 @@
-package com.msb.framework.demo.bean;
+package com.robot.framework.demo.bean;
 
 import lombok.Getter;
 import lombok.Setter;

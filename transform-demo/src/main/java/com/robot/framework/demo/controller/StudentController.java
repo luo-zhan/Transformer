@@ -1,15 +1,15 @@
-package com.msb.framework.demo.controller;
+package com.robot.framework.demo.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.msb.framework.demo.bean.ResultWrapper;
-import com.msb.framework.demo.bean.StudentVO;
-import com.msb.framework.demo.config.TransformConfig;
-import com.msb.framework.demo.enums.Sex;
-import com.msb.framework.demo.service.ClassService;
-import com.msb.framework.demo.service.DictionaryService;
-import com.msb.framework.demo.service.StudentService;
-import com.msb.framework.demo.service.convert.StudentConvert;
+import com.robot.framework.demo.bean.ResultWrapper;
+import com.robot.framework.demo.bean.StudentVO;
+import com.robot.framework.demo.config.TransformConfig;
+import com.robot.framework.demo.enums.Sex;
+import com.robot.framework.demo.service.ClassService;
+import com.robot.framework.demo.service.DictionaryService;
+import com.robot.framework.demo.service.StudentService;
+import com.robot.framework.demo.service.convert.StudentConvert;
 import com.robot.transform.annotation.Transform;
 import com.robot.transform.component.Dict;
 import com.robot.transform.extend.TransformExtendForMyBatisPlusAutoConfiguration;

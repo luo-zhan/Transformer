@@ -1,7 +1,7 @@
-package com.msb.framework.demo.service;
+package com.robot.framework.demo.service;
 
-import com.msb.framework.demo.bean.Student;
-import com.msb.framework.demo.enums.Sex;
+import com.robot.framework.demo.bean.Student;
+import com.robot.framework.demo.enums.Sex;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 

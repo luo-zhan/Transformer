@@ -1,8 +1,8 @@
-package com.msb.framework.demo.test;
+package com.robot.framework.demo.test;
 
-import com.msb.framework.demo.TransformDemoApplication;
-import com.msb.framework.demo.bean.StudentVO;
-import com.msb.framework.demo.enums.Sex;
+import com.robot.framework.demo.TransformDemoApplication;
+import com.robot.framework.demo.bean.StudentVO;
+import com.robot.framework.demo.enums.Sex;
 import com.robot.transform.util.TransformUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;

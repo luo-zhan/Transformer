@@ -1,4 +1,4 @@
-package com.msb.framework.demo;
+package com.robot.framework.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

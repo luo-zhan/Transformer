@@ -1,4 +1,4 @@
-package com.msb.framework.demo.service;
+package com.robot.framework.demo.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

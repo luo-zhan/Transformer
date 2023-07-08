@@ -1,7 +1,7 @@
-package com.msb.framework.demo.bean;
+package com.robot.framework.demo.bean;
 
-import com.msb.framework.demo.controller.transform.TransformClass;
-import com.msb.framework.demo.enums.Sex;
+import com.robot.framework.demo.controller.transform.TransformClass;
+import com.robot.framework.demo.enums.Sex;
 import com.robot.transform.annotation.Transform;
 import com.robot.transform.annotation.TransformDict;
 import com.robot.transform.annotation.TransformEnum;

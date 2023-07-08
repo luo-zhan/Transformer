@@ -1,8 +1,8 @@
-package com.msb.framework.demo.service.convert;
+package com.robot.framework.demo.service.convert;
 
 
-import com.msb.framework.demo.bean.Student;
-import com.msb.framework.demo.bean.StudentVO;
+import com.robot.framework.demo.bean.Student;
+import com.robot.framework.demo.bean.StudentVO;
 import org.mapstruct.Mapper;
 
 /**

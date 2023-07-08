@@ -1,7 +1,7 @@
-package com.msb.framework.demo.config;
+package com.robot.framework.demo.config;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.msb.framework.demo.bean.ResultWrapper;
+import com.robot.framework.demo.bean.ResultWrapper;
 import com.robot.transform.component.UnWrapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
