@@ -2,9 +2,9 @@ package com.msb.framework.demo.controller.transform;
 
 import com.msb.framework.demo.service.ClassService;
 import com.robot.transform.transformer.SimpleTransformer;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Resource;
 import java.util.Optional;
 
@@ -21,7 +21,7 @@ public class ClassTransformer implements SimpleTransformer<Long> {
     private ClassService classService;
 
     @Override
-    public String transform(@Nonnull Long classId) {
+    public String transform(@NonNull Long classId) {
         String className = classService.getName(classId);
         return Optional.ofNullable(className).orElse(String.valueOf(classId));
     }

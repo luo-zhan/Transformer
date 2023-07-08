@@ -17,24 +17,24 @@ public class DictionaryService {
     private static final Map<Integer, String> MAP = new HashMap<>();
 
     static {
-        MAP.put(0, "普通成员");
-        MAP.put(1, "班长");
-        MAP.put(2, "副班长");
-        MAP.put(3, "学习委员");
+        MAP.put(0, "无爱好");
+        MAP.put(1, "学习");
+        MAP.put(2, "音乐");
+        MAP.put(3, "运动");
     }
 
     /**
      * 根据分组和code获取文本
      *
-     * @param group 分组
-     * @param code code
+     * @param group    分组
+     * @param dictCode 字典code
      * @return 文本
      */
-    public String getText(String group, Integer code) {
-        // 班干部字典，模拟从db中查询
-        String classLeader = "classLeader";
-        if (classLeader.equals(group)) {
-            return MAP.get(code);
+    public String getText(String group, Integer dictCode) {
+        // 此处模拟从数据字典表中查询
+        String groupName = "hobby";
+        if (groupName.equals(group)) {
+            return MAP.get(dictCode);
         }
         return null;
     }

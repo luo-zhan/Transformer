@@ -1,19 +1,16 @@
 package com.robot.transform.extend.transformer;
 
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.robot.transform.extend.annotation.TransformFK;
 import com.robot.transform.transformer.Transformer;
 import com.robot.transform.util.SpringContextUtil;
-import com.robot.transform.util.TransformUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
-import javax.annotation.Nonnull;
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * 外键转换器
@@ -26,7 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 public class ForeignKeyTransformer implements Transformer<Serializable, TransformFK> {
 
     @Override
-    public String transform(@Nonnull Serializable id, @Nonnull TransformFK annotation) {
+    public String transform(@NonNull Serializable id, @NonNull TransformFK annotation) {
         Class<? extends BaseMapper<?>> clazz = annotation.mapper();
         BaseMapper<?> mapper = SpringContextUtil.getBean(clazz);
         Object entity = mapper.selectById(id);

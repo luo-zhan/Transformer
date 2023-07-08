@@ -29,6 +29,7 @@ public @interface TransformEnum {
     /**
      * 枚举class，必须实现了Dict接口
      */
-    Class<? extends Dict<?>> value();
+    @SuppressWarnings("rawtypes")
+    Class<? extends Dict> value();
 
 }

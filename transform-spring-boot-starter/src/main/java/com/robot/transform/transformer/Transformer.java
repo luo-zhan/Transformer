@@ -1,6 +1,8 @@
 package com.robot.transform.transformer;
 
-import javax.annotation.Nonnull;
+
+import org.springframework.lang.NonNull;
+
 import java.lang.annotation.Annotation;
 
 /**
@@ -20,5 +22,5 @@ public interface Transformer<T, A extends Annotation> {
      * @param annotation    自定义注解
      * @return 翻译后的值
      */
-    String transform(@Nonnull T originalValue, A annotation);
+    String transform(@NonNull T originalValue, A annotation);
 }

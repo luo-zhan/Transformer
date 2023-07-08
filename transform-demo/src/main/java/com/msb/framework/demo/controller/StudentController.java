@@ -20,8 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -60,10 +59,10 @@ public class StudentController {
         Integer sex = studentVO.getSex();
         String sexName = Dict.getTextByCode(Sex.class, sex);
         studentVO.setSexName(sexName);
-        // 3、班干部职位
-        Integer classLeaderCode = studentVO.getClassLeader();
-        String classLeader = dictionaryService.getText("classLeader", classLeaderCode);
-        studentVO.setClassLeaderName(classLeader);
+        // 3、爱好
+        Integer hobbyCode = studentVO.getHobby();
+        String hobby = dictionaryService.getText("hobby", hobbyCode);
+        studentVO.setHobbyName(hobby);
         // 4、小组成员和同桌，属于嵌套转换，这里比较麻烦就不写了..
 
         return studentVO;
@@ -84,18 +83,20 @@ public class StudentController {
     /**
      * 2、使用转换插件，转换List
      *
-     * @link 启动项目后点击链接 <a href="http://localhost:8080/student/list">查看效果</a>
+     * @link 启动项目后点击链接 <a href="http://localhost:8080/student/list/100">查看效果</a>
      */
-    @GetMapping("/list")
-    @Transform
-    public List<StudentVO> getStudentForList() {
+    @GetMapping("/list/{number}")
+    @Transform(async = true)
+    public List<StudentVO> getStudentForList(int number) {
         // 示例代码，实际情况下应从db获取
-        StudentVO student1 = studentConvert.toVo(studentService.getById(1L));
-        StudentVO student2 = studentConvert.toVo(studentService.getById(2L));
+        List<StudentVO> list = new ArrayList<>();
+        for (int i = 0; i < number; i++) {
+            list.add(studentConvert.toVo(studentService.getById((long) i)));
+        }
         // 同桌和小组成员，用来测试嵌套转换功能
-        student1.setDeskmate(student2);
-        student1.setTeam(Collections.singletonList(student2));
-        return Arrays.asList(student1, student2);
+        list.get(0).setDeskmate(list.get(1));
+
+        return list;
     }
 
     /**
@@ -108,7 +109,7 @@ public class StudentController {
     @GetMapping("/page")
     @Transform
     public IPage<StudentVO> getStudentPage() {
-        return new Page<StudentVO>().setRecords(getStudentForList());
+        return new Page<StudentVO>().setRecords(getStudentForList(100));
     }
 
     /**

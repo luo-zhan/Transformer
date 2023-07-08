@@ -1,8 +1,8 @@
 package com.robot.transform.transformer;
 
 import com.robot.transform.annotation.TransformDict;
+import org.springframework.lang.NonNull;
 
-import javax.annotation.Nonnull;
 
 /**
  * 数据字典转换器接口
@@ -18,7 +18,7 @@ public interface IDictTransformer<T> extends Transformer<T, TransformDict> {
      * @return 转换后的值
      */
     @Override
-    default String transform(@Nonnull T originalValue, TransformDict transformDict) {
+    default String transform(@NonNull T originalValue, TransformDict transformDict) {
         return transform(originalValue, transformDict.group());
     }
 
@@ -29,7 +29,7 @@ public interface IDictTransformer<T> extends Transformer<T, TransformDict> {
      * @param group         组名
      * @return 转换后的值
      */
-    String transform(@Nonnull T originalValue, String group);
+    String transform(@NonNull T originalValue, String group);
 
 
 }

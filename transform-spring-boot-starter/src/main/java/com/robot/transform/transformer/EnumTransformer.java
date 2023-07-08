@@ -2,8 +2,8 @@ package com.robot.transform.transformer;
 
 import com.robot.transform.annotation.TransformEnum;
 import com.robot.transform.component.Dict;
+import org.springframework.lang.NonNull;
 
-import javax.annotation.Nonnull;
 import java.io.Serializable;
 
 
@@ -16,7 +16,7 @@ public class EnumTransformer<T extends Serializable> implements Transformer<T, T
 
     @Override
     @SuppressWarnings("unchecked")
-    public String transform(@Nonnull T enumCode, @Nonnull TransformEnum annotation) {
+    public String transform(@NonNull T enumCode, TransformEnum annotation) {
         return Dict.getTextByCode((Class<? extends Dict<T>>) annotation.value(), enumCode);
     }
 

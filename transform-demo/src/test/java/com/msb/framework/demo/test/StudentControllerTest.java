@@ -1,4 +1,4 @@
-package com.msb.framework.demo.controller;
+package com.msb.framework.demo.test;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONWriter;
@@ -40,7 +40,7 @@ class StudentControllerTest {
      */
     @Test
     void getStudentForList() throws Exception {
-        request("/student/list");
+        request("/student/list/10");
     }
 
     /**

@@ -25,11 +25,13 @@ public class SpringContextUtil implements ApplicationContextAware {
         return context.getBean(clazz);
     }
 
+    private static void setContext(ApplicationContext context) {
+        SpringContextUtil.context = context;
+    }
 
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
-        SpringContextUtil.context = applicationContext;
+        setContext(applicationContext);
     }
-
 
 }

@@ -28,7 +28,7 @@ import static com.robot.transform.util.LambdaUtil.sure;
  */
 @Configuration
 @ComponentScan("com.**.transformer")
-@Import({TranslatorAspect.class, EnumTransformer.class})
+@Import({TransformAspect.class, EnumTransformer.class})
 public class TransformAutoConfiguration implements ApplicationListener<ContextRefreshedEvent> {
 
 

@@ -1,9 +1,8 @@
 package com.robot.transform.transformer;
 
 import com.robot.transform.annotation.Transform;
+import org.springframework.lang.NonNull;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * 简单转换器接口
@@ -19,7 +18,7 @@ public interface SimpleTransformer<T> extends Transformer<T, Transform> {
      * @return 转换后的值
      */
     @Override
-    default String transform(@Nonnull T originalValue, @Nullable Transform transform) {
+    default String transform(@NonNull T originalValue, @NonNull Transform transform) {
         return transform(originalValue);
     }
 
@@ -29,7 +28,7 @@ public interface SimpleTransformer<T> extends Transformer<T, Transform> {
      * @param originalValue 原始值
      * @return 转换后的值
      */
-    String transform(@Nonnull T originalValue);
+    String transform(@NonNull T originalValue);
 
 
 }

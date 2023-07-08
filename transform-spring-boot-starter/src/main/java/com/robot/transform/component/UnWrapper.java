@@ -1,8 +1,8 @@
 package com.robot.transform.component;
 
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.lang.NonNull;
 
-import javax.annotation.Nonnull;
 
 /**
  * 解包器
@@ -29,7 +29,7 @@ public interface UnWrapper<T> extends Converter<T, Object> {
      * @return 目标对象
      */
     @Override
-    default Object convert(@Nonnull T source) {
+    default Object convert(@NonNull T source) {
         return unWrap(source);
     }
 }

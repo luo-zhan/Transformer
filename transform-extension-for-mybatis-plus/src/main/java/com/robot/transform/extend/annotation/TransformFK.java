@@ -31,6 +31,7 @@ public @interface TransformFK {
     /**
      * 外键表的 mapper-class，必须实现自BaseMapper接口
      */
+    @SuppressWarnings("all")
     Class<? extends BaseMapper<?>> mapper();
 
     /**
