@@ -1,17 +1,17 @@
-package com.robot.framework.demo.controller;
+package com.robot.transform.demo.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.robot.framework.demo.bean.ResultWrapper;
-import com.robot.framework.demo.bean.StudentVO;
-import com.robot.framework.demo.config.TransformConfig;
-import com.robot.framework.demo.enums.Sex;
-import com.robot.framework.demo.service.ClassService;
-import com.robot.framework.demo.service.DictionaryService;
-import com.robot.framework.demo.service.StudentService;
-import com.robot.framework.demo.service.convert.StudentConvert;
 import com.robot.transform.annotation.Transform;
 import com.robot.transform.component.Dict;
+import com.robot.transform.demo.bean.ResultWrapper;
+import com.robot.transform.demo.bean.StudentVO;
+import com.robot.transform.demo.config.TransformConfig;
+import com.robot.transform.demo.enums.Sex;
+import com.robot.transform.demo.service.ClassService;
+import com.robot.transform.demo.service.DictionaryService;
+import com.robot.transform.demo.service.StudentService;
+import com.robot.transform.demo.service.convert.StudentConvert;
 import com.robot.transform.extend.TransformExtendForMyBatisPlusAutoConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

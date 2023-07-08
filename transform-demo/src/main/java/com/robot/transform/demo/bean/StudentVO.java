@@ -1,10 +1,10 @@
-package com.robot.framework.demo.bean;
+package com.robot.transform.demo.bean;
 
-import com.robot.framework.demo.controller.transform.TransformClass;
-import com.robot.framework.demo.enums.Sex;
 import com.robot.transform.annotation.Transform;
 import com.robot.transform.annotation.TransformDict;
 import com.robot.transform.annotation.TransformEnum;
+import com.robot.transform.demo.controller.transform.TransformClass;
+import com.robot.transform.demo.enums.Sex;
 import lombok.Data;
 
 import java.util.List;

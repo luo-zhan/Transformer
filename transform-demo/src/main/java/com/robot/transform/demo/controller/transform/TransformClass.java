@@ -1,4 +1,4 @@
-package com.robot.framework.demo.controller.transform;
+package com.robot.transform.demo.controller.transform;
 
 import com.robot.transform.annotation.Transform;
 import org.springframework.core.annotation.AliasFor;

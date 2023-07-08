@@ -1,6 +1,6 @@
-package com.robot.framework.demo.controller.transform;
+package com.robot.transform.demo.controller.transform;
 
-import com.robot.framework.demo.service.ClassService;
+import com.robot.transform.demo.service.ClassService;
 import com.robot.transform.transformer.SimpleTransformer;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;

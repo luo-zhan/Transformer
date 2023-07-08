@@ -1,8 +1,8 @@
-package com.robot.framework.demo.config;
+package com.robot.transform.demo.config;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.robot.framework.demo.bean.ResultWrapper;
 import com.robot.transform.component.UnWrapper;
+import com.robot.transform.demo.bean.ResultWrapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

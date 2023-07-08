@@ -1,4 +1,4 @@
-package com.robot.framework.demo.enums;
+package com.robot.transform.demo.enums;
 
 import com.robot.transform.component.Dict;
 
