@@ -49,6 +49,11 @@
         <url>git@github.com:luo-zhan/Transformer.git</url>
     </scm>
 
+    <properties>
+        <sonar.organization>luo-zhan</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    </properties>
+
     <distributionManagement>
         <snapshotRepository>
             <id>oss</id>
