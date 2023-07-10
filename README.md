@@ -13,7 +13,7 @@
 
 @Transform是一款功能全面的字段转换工具，只需要几个简单的注解，即可实现各种姿势的字段转换，抛弃连表查询和累赘的转换逻辑，让开发更简单。
 
-> 2.X 版已在生产环境稳定运行一年，组件经过多年迭代，功能强大，性能优越，JMH测试百万数据0.15秒完成转换。
+> 2.X 版已在生产环境稳定运行一年，功能更强大，性能更优越，JMH测试百万数据转换仅需0.15秒
 >
 ![image](https://msb-edu-dev.oss-cn-beijing.aliyuncs.com/test/Transform.png)
 
@@ -41,37 +41,9 @@
 
 如果你有好的想法或建议，欢迎提issues或PR :)
 
-## 使用说明 / How to use
+## 快速上手 / Quick Start
 
-### 1. 添加依赖
-
-  * Maven
-     ```xml
-     <dependency>
-         <groupId>io.github.luo-zhan</groupId>
-         <artifactId>transform-spring-boot-starter</artifactId>
-         <version>2.0.0-RELEASE</version>
-     </dependency>
-     
-    <!-- MybatisPlus扩展，增加外键id转换和Page类解包功能，非必须 -->
-     <dependency>
-         <groupId>io.github.luo-zhan</groupId>
-         <artifactId>transform-extension-for-mybatis-plus</artifactId>
-         <version>2.0.0-RELEASE</version>
-     </dependency>
-   
-     ```
-  * Gradle
-    ```groovy
-    dependencies {
-        implementation 'io.github.luo-zhan:transform-spring-boot-starter:2.0.0-RELEASE'
-        
-        // MybatisPlus扩展，增加外键id转换和Page类解包功能，非必须
-        implementation 'io.github.luo-zhan:transform-extension-for-mybatis-plus:2.0.0-RELEASE'
-    }
-    ```
-
-### 2. 定义VO
+### 1. 定义VO对象，增加转换注解
 
 例如学生信息如下所示，返回给前端前须将其中的数值**转换**成可读文本
 
@@ -130,7 +102,7 @@
     ```
     在转换属性上使用转换注解，其中`@TransformEnum`、`@TransformDict`为内置注解，`@TransformClass`为自定义注解，组件有强大的扩展性，自定义注解的使用说明见wiki
 
-### 3. 在查询接口的方法上添加`@Transform`注解，大功告成！
+### 2. 在查询接口的方法上添加`@Transform`注解，大功告成！
    ```java
    /** 学生接口 */
    @RestController
@@ -159,7 +131,7 @@
 }
    ```
 
-### 4. 测试
+### 3. 测试
 
 前端访问`http://localhost:8080/student/1`，响应结果如下：
 
@@ -177,6 +149,34 @@
    ```
 
 完整示例代码见项目中`transform-demo`模块的`StudentController`类
+
+## 依赖 / Dependency
+
+* Maven
+   ```xml
+   <dependency>
+       <groupId>io.github.luo-zhan</groupId>
+       <artifactId>transform-spring-boot-starter</artifactId>
+       <version>2.0.0-RELEASE</version>
+   </dependency>
+   
+  <!-- MybatisPlus扩展，增加外键id转换和Page类解包功能，非必须 -->
+   <dependency>
+       <groupId>io.github.luo-zhan</groupId>
+       <artifactId>transform-extension-for-mybatis-plus</artifactId>
+       <version>2.0.0-RELEASE</version>
+   </dependency>
+ 
+   ```
+* Gradle
+  ```groovy
+  dependencies {
+      implementation 'io.github.luo-zhan:transform-spring-boot-starter:2.0.0-RELEASE'
+      
+      // MybatisPlus扩展，增加外键id转换和Page类解包功能，非必须
+      implementation 'io.github.luo-zhan:transform-extension-for-mybatis-plus:2.0.0-RELEASE'
+  }
+  ```
 
 ## 性能 / JMH
 
