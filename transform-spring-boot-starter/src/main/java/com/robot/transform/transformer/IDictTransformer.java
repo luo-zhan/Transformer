@@ -6,6 +6,7 @@ import org.springframework.lang.NonNull;
 
 /**
  * 数据字典转换器接口
+ * 注意需要自行实现接口后（名字必须是DictTransformer）并注入spring容器才能正常使用
  *
  * @author R
  */

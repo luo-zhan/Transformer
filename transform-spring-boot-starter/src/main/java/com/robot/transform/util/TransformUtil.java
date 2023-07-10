@@ -32,18 +32,16 @@ public class TransformUtil {
      * @param object 集合或单个bean
      */
     public static void transform(Object object) throws IllegalAccessException {
-
-
         TransformClass transformClass = getTransformClassOfObject(object);
         if (transformClass == null) {
             // 获取不到转换类，表示object为null或者空集合
             return;
         }
         Set<TransformClass> transformClassRecorder = new HashSet<>();
+        // 字段转换，并记录转换类
         transform(object, transformClass, transformClassRecorder);
-
+        // 清空缓存
         transformClassRecorder.forEach(TransformClass::clearCache);
-
     }
 
     /**

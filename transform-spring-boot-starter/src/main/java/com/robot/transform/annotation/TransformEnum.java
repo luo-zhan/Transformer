@@ -1,7 +1,7 @@
 package com.robot.transform.annotation;
 
 
-import com.robot.transform.component.Dict;
+import com.robot.dict.Dict;
 import com.robot.transform.transformer.EnumTransformer;
 import org.springframework.core.annotation.AliasFor;
 

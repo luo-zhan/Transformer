@@ -1,7 +1,7 @@
 package com.robot.transform.transformer;
 
+import com.robot.dict.Dict;
 import com.robot.transform.annotation.TransformEnum;
-import com.robot.transform.component.Dict;
 import org.springframework.lang.NonNull;
 
 import java.io.Serializable;

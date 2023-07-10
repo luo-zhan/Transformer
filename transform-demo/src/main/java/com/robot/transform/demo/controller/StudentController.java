@@ -2,8 +2,8 @@ package com.robot.transform.demo.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.robot.dict.Dict;
 import com.robot.transform.annotation.Transform;
-import com.robot.transform.component.Dict;
 import com.robot.transform.demo.bean.ResultWrapper;
 import com.robot.transform.demo.bean.StudentVO;
 import com.robot.transform.demo.config.TransformConfig;

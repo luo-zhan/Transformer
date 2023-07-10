@@ -1,6 +1,6 @@
 package com.robot.transform.demo.enums;
 
-import com.robot.transform.component.Dict;
+import com.robot.dict.Dict;
 
 /**
  * 性别枚举

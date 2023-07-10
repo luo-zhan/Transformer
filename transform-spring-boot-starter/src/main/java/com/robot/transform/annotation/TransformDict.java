@@ -1,5 +1,6 @@
 package com.robot.transform.annotation;
 
+import com.robot.transform.transformer.IDictTransformer;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
@@ -14,7 +15,7 @@ import java.lang.annotation.*;
 @Documented
 @Target({ElementType.FIELD})
 
-@Transform
+@Transform(transformer = IDictTransformer.class)
 public @interface TransformDict {
 
     /**

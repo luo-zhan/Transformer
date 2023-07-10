@@ -16,7 +16,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.util.Map;
 
-import static com.robot.transform.util.LambdaUtil.sure;
+import static com.robot.util.LambdaExceptionUtil.sure;
 
 
 /**
