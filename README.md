@@ -1,6 +1,6 @@
 # @Transform
 
-[![GitHub](https://img.shields.io/github/license/luo-zhan/Transformer)](http://opensource.org/licenses/apache2.0)
+[![GitHub](https://img.shields.io/github/license/luo-zhan/Transformer)](http://opensource.org/licenses/apache-2-0)
 [![GitHub code size](https://img.shields.io/github/languages/code-size/Robot-L/transformer)]()
 [![GitHub last commit](https://img.shields.io/github/last-commit/Robot-L/translator?label=last%20commit)]()
 [![sonarLint issues](https://img.shields.io/badge/sonarLint%20issues-0-blue)]()
