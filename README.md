@@ -49,59 +49,48 @@ Transformer是一款功能全面的字段转换工具，只需要几个简单的
 
 例如学生信息如下所示，返回给前端前须将其中的数值**转换**成可读文本
 
-    ```js
-    {
-      "id": 1, 
-      "name": "周杰伦", 
-      "sex": 1,        // 性别，1-男，2-女，存储在枚举类Sex.class中
-      "classId": 32,   // 班级id
-      "hobby": 2       // 爱好，0-无爱好,1-学习,2-音乐,3-运动...（存储在数据字典表中，分组名为"hobby"）
-    }
-    ```
+```js
+{
+  "id": 1, 
+  "name": "周杰伦", 
+  "sex": 1,        // 性别，1-男，2-女，存储在枚举类Sex.class中
+  "classId": 32,   // 班级id
+  "hobby": 2       // 爱好，0-无爱好,1-学习,2-音乐,3-运动...（存储在数据字典表中，分组名为"hobby"）
+}
+```
 
 StudentVO.java定义，增加相应的几个文本字段，并加上转换注解:
 
-    ```java
-    /** 学生信息VO */
-    @Data
-    public class StudentVO {
-        /**
-         * 主键ID
-         */
-        private Long id;
-        /**
-         * 姓名
-         */
-        private String name;
-        /**
-         * 性别值
-         */
-        private Integer sex;
-        /**
-         * 性别（枚举转换，Sex是性别枚举类）
-         */
-        @TransformEnum(Sex.class)
-        private String sexName;
-        /**
-         * 爱好code
-         */
-        private Integer hobby;
-        /**
-         * 爱好名称（数据字典转换，字典的组为"hobby"）
-         */
-        @TransformDict(group = "hobby")
-        private String hobbyName;
-        /**
-         * 班级id
-         */
-        private Long classId;
-         /**
-         * 班级名称（自定义转换——通过班级表的id转换成班级名称）
-         */
-        @TransformClass
-        private String className;
-    }
-    ```
+```java
+/** 学生信息VO */
+@Data
+public class StudentVO {
+    private Long id;
+    // 姓名
+    private String name;
+
+    // 性别值
+    private Integer sex;
+
+    // 性别（枚举转换，Sex是性别枚举类）
+    @TransformEnum(Sex.class)
+    private String sexName;
+
+    // 爱好code
+    private Integer hobby;
+
+    // 爱好名称（数据字典转换，字典的组为"hobby"）
+    @TransformDict(group = "hobby")
+    private String hobbyName;
+
+    // 班级id
+    private Long classId;
+
+     //班级名称（自定义转换——通过班级表的id转换成班级名称）
+    @TransformClass
+    private String className;
+}
+```
     在转换属性上使用转换注解，其中`@TransformEnum`、`@TransformDict`为内置注解，`@TransformClass`为自定义注解，组件有强大的扩展性，自定义注解的使用说明见wiki
 
 ### 2. 在查询接口的方法上添加`@Transform`注解，大功告成！
@@ -153,8 +142,6 @@ StudentVO.java定义，增加相应的几个文本字段，并加上转换注解
 完整示例代码见项目中`transform-demo`模块的`StudentController`类
 
 ## 依赖 / Dependency
-
-* Maven
    ```xml
    <dependency>
        <groupId>io.github.luo-zhan</groupId>
@@ -170,15 +157,6 @@ StudentVO.java定义，增加相应的几个文本字段，并加上转换注解
    </dependency>
  
    ```
-* Gradle
-  ```groovy
-  dependencies {
-      implementation 'io.github.luo-zhan:transform-spring-boot-starter:2.0.0-RELEASE'
-      
-      // MybatisPlus扩展，增加外键id转换和Page类解包功能，非必须
-      implementation 'io.github.luo-zhan:transform-extension-for-mybatis-plus:2.0.0-RELEASE'
-  }
-  ```
 
 ## 性能 / JMH
 
