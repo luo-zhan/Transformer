@@ -2,8 +2,7 @@
 
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=luo-zhan_Transformer&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=luo-zhan_LambdaExceptionThrower)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=luo-zhan_Transformer&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=luo-zhan_LambdaExceptionThrower)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=luo-zhan_Transformer&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=luo-zhan_LambdaExceptionThrower)
-
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=luo-zhan_Transformer&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=luo-zhan_LambdaExceptionThrower)<br>
 [![GitHub](https://img.shields.io/github/license/luo-zhan/Transformer)](http://opensource.org/licenses/apache-2-0)
 [![GitHub code size](https://img.shields.io/github/languages/code-size/Robot-L/transformer)]()
 [![GitHub last commit](https://img.shields.io/github/last-commit/Robot-L/translator?label=last%20commit)]()
