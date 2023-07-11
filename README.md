@@ -91,7 +91,7 @@ public class StudentVO {
     private String className;
 }
 ```
-    在转换属性上使用转换注解，其中`@TransformEnum`、`@TransformDict`为内置注解，`@TransformClass`为自定义注解，组件有强大的扩展性，自定义注解的使用说明见wiki
+  在文本字段上使用转换注解，其中`@TransformEnum`、`@TransformDict`为内置注解，`@TransformClass`为自定义注解，组件支持自定义注解来提高扩展性，自定义注解的使用说明见下文wiki
 
 ### 2. 在查询接口的方法上添加`@Transform`注解，大功告成！
    ```java
@@ -113,8 +113,9 @@ public class StudentVO {
         //   "id": 1, 
         //   "name": "周杰伦", 
         //   "sex": 1,         // 性别，1-男，2-女
-        //   "classId": 32,    // 班级id
-        //   "hobby": 2        // 爱好，0-无爱好,1-学习,2-音乐,3-运动,...
+        //   "hobby": 2,       // 爱好，0-无爱好,1-学习,2-音乐,3-运动,...
+        //   "classId": 32     // 班级id
+        
         // }
         return student;
     }
@@ -133,7 +134,7 @@ public class StudentVO {
   "sex": 1,
   "sexName": "男",
   "hobby": 2,
-  "hobbyName": "音乐委员"
+  "hobbyName": "音乐"
   "classId": 32,
   "className": "三年二班"
 }
