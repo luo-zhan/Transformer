@@ -1,6 +1,9 @@
 # Transformer
 
-[![SolarLint](https://img.shields.io/badge/SolarLint-perfect-gold)]()
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=luo-zhan_Transformer&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=luo-zhan_LambdaExceptionThrower)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=luo-zhan_Transformer&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=luo-zhan_LambdaExceptionThrower)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=luo-zhan_Transformer&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=luo-zhan_LambdaExceptionThrower)
+
 [![GitHub](https://img.shields.io/github/license/luo-zhan/Transformer)](http://opensource.org/licenses/apache-2-0)
 [![GitHub code size](https://img.shields.io/github/languages/code-size/Robot-L/transformer)]()
 [![GitHub last commit](https://img.shields.io/github/last-commit/Robot-L/translator?label=last%20commit)]()
@@ -57,7 +60,7 @@ Transformer是一款功能全面的字段转换工具，只需要几个简单的
     }
     ```
 
-    StudentVO.java定义，增加相应的几个文本字段，并加上转换注解:
+StudentVO.java定义，增加相应的几个文本字段，并加上转换注解:
 
     ```java
     /** 学生信息VO */
@@ -157,14 +160,14 @@ Transformer是一款功能全面的字段转换工具，只需要几个简单的
    <dependency>
        <groupId>io.github.luo-zhan</groupId>
        <artifactId>transform-spring-boot-starter</artifactId>
-       <version>2.0.0-RELEASE</version>
+       <version>2.1.0-RELEASE</version>
    </dependency>
    
   <!-- MybatisPlus扩展，增加外键id转换和Page类解包功能，非必须 -->
    <dependency>
        <groupId>io.github.luo-zhan</groupId>
        <artifactId>transform-extension-for-mybatis-plus</artifactId>
-       <version>2.0.0-RELEASE</version>
+       <version>2.1.0-RELEASE</version>
    </dependency>
  
    ```

@@ -6,6 +6,7 @@ import org.springframework.lang.NonNull;
 
 /**
  * 简单转换器接口
+ * 自定义转换场景中如果自定义注解里不需要额外属性（除开from属性），直接实现该接口即可
  *
  * @author R
  */
