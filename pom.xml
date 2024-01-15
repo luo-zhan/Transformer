@@ -17,6 +17,13 @@
     <description>可能是最简单，但最强大的字段转换插件，一个注解搞定转换，开发变得更加丝滑</description>
     <url>https://github.com/luo-zhan/Transformer</url>
 
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonar.organization>luo-zhan</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    </properties>
 
     <modules>
         <module>transform-spring-boot-starter</module>
@@ -48,11 +55,6 @@
         <developerConnection>scm:git@github.com:luo-zhan/Transformer.git</developerConnection>
         <url>git@github.com:luo-zhan/Transformer.git</url>
     </scm>
-
-    <properties>
-        <sonar.organization>luo-zhan</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-    </properties>
 
     <distributionManagement>
         <snapshotRepository>
@@ -147,6 +149,19 @@
                         <configuration>
                             <repoToken>TsQHHPW9P2wm6TNuqLteuICP0XgoglGeq</repoToken>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.7.6.201602180812</version>
+                        <executions>
+                            <execution>
+                                <id>prepare-agent</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>

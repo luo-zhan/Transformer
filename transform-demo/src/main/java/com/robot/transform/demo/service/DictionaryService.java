@@ -10,7 +10,7 @@ import java.util.Map;
  * 这里是写死的数据，实际情况应该是db中查询
  *
  * @author R
- * @date 2022-08
+ * @since 2022-08
  */
 @Service
 public class DictionaryService {

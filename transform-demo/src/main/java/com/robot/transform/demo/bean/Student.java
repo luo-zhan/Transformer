@@ -6,7 +6,7 @@ import lombok.Data;
  * 学生bean
  *
  * @author R
- * @date 2022-08
+ * @since 2022-08
  */
 @Data
 @SuppressWarnings("all")
