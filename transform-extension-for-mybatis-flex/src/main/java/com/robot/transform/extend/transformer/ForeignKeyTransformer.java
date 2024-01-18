@@ -1,6 +1,7 @@
 package com.robot.transform.extend.transformer;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import com.mybatisflex.core.BaseMapper;
 import com.robot.transform.extend.annotation.TransformFK;
 import com.robot.transform.transformer.Transformer;
 import com.robot.transform.util.SpringContextUtil;
@@ -26,7 +27,7 @@ public class ForeignKeyTransformer implements Transformer<Serializable, Transfor
     public String transform(@NonNull Serializable id, @NonNull TransformFK annotation) {
         Class<? extends BaseMapper<?>> clazz = annotation.mapper();
         BaseMapper<?> mapper = SpringContextUtil.getBean(clazz);
-        Object entity = mapper.selectById(id);
+        Object entity = mapper.selectOneById(id);
         if (entity == null) {
             log.warn("转换警告：{}类根据id={}，找不到任何数据！", clazz.getSimpleName(), id);
             return null;
