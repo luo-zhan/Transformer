@@ -5,7 +5,7 @@
     <parent>
         <artifactId>transformer</artifactId>
         <groupId>io.github.luo-zhan</groupId>
-        <version>2.1.0-RELEASE</version>
+        <version>2.1.1-RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>io.github.luo-zhan</groupId>
             <artifactId>transform-spring-boot-starter</artifactId>
-            <version>2.1.0-RELEASE</version>
+            <version>2.1.1-RELEASE</version>
         </dependency>
 
         <dependency>

@@ -12,7 +12,7 @@
     </parent>
     <groupId>io.github.luo-zhan</groupId>
     <artifactId>transformer</artifactId>
-    <version>2.1.0-RELEASE</version>
+    <version>2.1.1-RELEASE</version>
     <name>Transformer</name>
     <description>可能是最简单，但最强大的字段转换插件，一个注解搞定转换，开发变得更加丝滑</description>
     <url>https://github.com/luo-zhan/Transformer</url>
