@@ -29,6 +29,7 @@
         <module>transform-spring-boot-starter</module>
         <module>transform-demo</module>
         <module>transform-extension-for-mybatis-plus</module>
+        <module>transform-extension-for-mybatis-flex</module>
     </modules>
 
     <developers>
