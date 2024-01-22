@@ -156,6 +156,13 @@ public class StudentVO {
        <artifactId>transform-extension-for-mybatis-plus</artifactId>
        <version>2.1.2-RELEASE</version>
    </dependency>
+
+    <!-- MybatisFlex扩展，增加外键id转换和Page类解包功能，非必须 -->
+    <dependency>
+        <groupId>io.github.luo-zhan</groupId>
+        <artifactId>transform-extension-for-mybatis-flex</artifactId>
+        <version>2.1.1-RELEASE</version>
+    </dependency>
  
    ```
 
