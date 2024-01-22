@@ -161,7 +161,7 @@ public class StudentVO {
     <dependency>
         <groupId>io.github.luo-zhan</groupId>
         <artifactId>transform-extension-for-mybatis-flex</artifactId>
-        <version>2.1.1-RELEASE</version>
+        <version>2.1.2-RELEASE</version>
     </dependency>
  
    ```
