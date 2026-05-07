@@ -147,21 +147,21 @@ public class StudentVO {
    <dependency>
        <groupId>io.github.luo-zhan</groupId>
        <artifactId>transform-spring-boot-starter</artifactId>
-         <version>2.1.4-RELEASE</version>
+           <version>2.1.4</version>
    </dependency>
    
   <!-- MybatisPlus扩展，增加外键id转换和Page类解包功能，非必须 -->
    <dependency>
        <groupId>io.github.luo-zhan</groupId>
        <artifactId>transform-extension-for-mybatis-plus</artifactId>
-         <version>2.1.4-RELEASE</version>
+           <version>2.1.4</version>
    </dependency>
 
     <!-- MybatisFlex扩展，增加外键id转换和Page类解包功能，非必须 -->
     <dependency>
         <groupId>io.github.luo-zhan</groupId>
         <artifactId>transform-extension-for-mybatis-flex</artifactId>
-          <version>2.1.4-RELEASE</version>
+            <version>2.1.4</version>
     </dependency>
  
    ```
