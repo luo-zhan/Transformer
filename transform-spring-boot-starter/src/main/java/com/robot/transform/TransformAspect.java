@@ -5,7 +5,7 @@ import com.robot.transform.util.TransformUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.core.convert.support.GenericConversionService;
+import org.springframework.format.support.FormattingConversionService;
 
 import javax.annotation.Resource;
 
@@ -20,13 +20,13 @@ import javax.annotation.Resource;
 public class TransformAspect {
 
     @Resource
-    private GenericConversionService genericConversionService;
+    private FormattingConversionService conversionService;
 
     @AfterReturning(pointcut = "@annotation(transformAnnotation)", returning = "returnValue")
     public void doAfter(Object returnValue, Transform transformAnnotation) throws IllegalAccessException {
         long l = System.currentTimeMillis();
         // 获取容器中的转换器进行返回值解包，注意此处返回结果可能是Bean也可能是集合
-        Object result = genericConversionService.convert(returnValue, Object.class);
+        Object result = conversionService.convert(returnValue, Object.class);
         TransformUtil.transform(result);
         long time = System.currentTimeMillis() - l;
         log.debug("转换耗时：{}ms", time);
