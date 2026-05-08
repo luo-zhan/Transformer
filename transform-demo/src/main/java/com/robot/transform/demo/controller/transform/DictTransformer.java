@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 
 /**
  * 数据字典转换器（示例）
- * 该类需要业务自己实现，注意类名必须为DictTransformer，并使用@Component加入容器
+ * 该类需要业务自己实现，注意类名必须为DictTransformer，并注册到spring容器
  *
  * @author R
  */

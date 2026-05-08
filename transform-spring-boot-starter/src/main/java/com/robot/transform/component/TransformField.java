@@ -6,6 +6,7 @@ import com.robot.transform.util.SpringContextUtil;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.util.Assert;
@@ -43,14 +44,14 @@ public class TransformField<T> {
         String originFieldName = mergedAnnotation.from().isEmpty() ? analyzeOriginFieldName(field) : mergedAnnotation.from();
         this.originField = FieldUtils.getField(field.getDeclaringClass(), originFieldName, true);
         Class<? extends Transformer<T, Annotation>> transformerClass = (Class<? extends Transformer<T, Annotation>>) mergedAnnotation.transformer();
-        // 通过spring容器拿转换器实例
-        this.transformer = SpringContextUtil.getBean(transformerClass);
+        this.transformer = getInstance(transformerClass);
         // 获取自定义注解类型（Transformer上有两个泛型，第一个是转换前的值类型，第二个是是自定义注解类型）
         ResolvableType resolvableType = ResolvableType.forClass(Transformer.class, transformerClass);
         Class<? extends Annotation> customTransformAnnotationType = (Class<? extends Annotation>) resolvableType.getGeneric(1).resolve();
         Assert.notNull(customTransformAnnotationType, "实现Transform接口时必须指定泛型：" + transformer.getClass().getSimpleName());
         this.transformAnnotation = field.getAnnotation(customTransformAnnotationType);
     }
+
 
     /**
      * 转换结果，并缓存
@@ -92,5 +93,21 @@ public class TransformField<T> {
             }
         }
         throw new IllegalArgumentException("转换异常：无法自动推断" + fieldName + "的原始字段名，请使用注解@Transform的from属性指定被转换的字段");
+    }
+
+
+    /**
+     * 获取实例，先从spring容器拿，没有的话尝试new
+     */
+    private Transformer<T, Annotation> getInstance(Class<? extends Transformer<T, Annotation>> transformerClass) {
+        try {
+            return SpringContextUtil.getBean(transformerClass);
+        } catch (BeansException e) {
+            try {
+                return transformerClass.getDeclaredConstructor().newInstance();
+            } catch (Exception ex) {
+                throw new IllegalStateException("无法实例化转换器: " + transformerClass.getName()+ "，请确保它是 Spring Bean 或有无参构造器", ex);
+            }
+        }
     }
 }

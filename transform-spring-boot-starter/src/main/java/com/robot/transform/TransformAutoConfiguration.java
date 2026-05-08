@@ -27,7 +27,6 @@ import static com.robot.util.LambdaExceptionUtil.sure;
  * @since 2022-10-5
  */
 @Configuration
-@ComponentScan("com.**.transformer")
 @Import({TransformAspect.class, EnumTransformer.class})
 public class TransformAutoConfiguration implements ApplicationListener<ContextRefreshedEvent> {
 
