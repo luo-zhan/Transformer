@@ -37,8 +37,8 @@ Transformer是一款功能全面的字段转换工具，只需要几个简单的
 - [x] 支持处理包装类型（如返回值Page、ResultWrapper这种包装类拆包后才是真正的数据）
 - [x] 支持自定义转换注解，增强扩展性（支持redis、本地缓存）
 - [x] 支持嵌套字段的转换 【2.0.0已支持】
-- [x] 转换配置缓存，转换配置首次处理后不再重复处理，节省反射开销 【2.1.0已支持】
-- [x] 转换结果缓存，同一线程转换结果放入ThreadLocal，提高批量转换的性能 【2.1.0已支持】
+- [x] 转换配置缓存，转换配置首次处理后不再重复处理，节省反射开销
+- [x] 转换结果缓存，同一线程转换结果放入ThreadLocal，提高批量转换的性能
 - [ ] 多线程转换，进一步提高批量转换的性能
 
 如果你有好的想法或建议，欢迎提issues或PR :)
@@ -49,7 +49,7 @@ Transformer是一款功能全面的字段转换工具，只需要几个简单的
 
 例如学生信息如下所示，返回给前端前须将其中的数值**转换**成可读文本
 
-```js
+```json5
 {
   "id": 1, 
   "name": "周杰伦", 
@@ -93,39 +93,19 @@ public class StudentVO {
 ```
   在文本字段上使用转换注解，其中`@TransformEnum`、`@TransformDict`为内置注解，`@TransformClass`为自定义注解，组件支持自定义注解来提高扩展性，自定义注解的使用说明见下文wiki
 
-### 2. 在查询接口的方法上添加`@Transform`注解，大功告成！
+### 2. 在启动类上加`@EnableTransform`注解，大功告成！
    ```java
-   /** 学生接口 */
-   @RestController
-   @RequestMapping("/student")
-   public class StudentController {
 
-    /**
-     * 查询学生信息
-     * 加上@Transform注解开启字段转换
-     */
-    @Transform
-    @GetMapping("/{id}")
-    public StudentVO getStudent(@PathVariable Long id) {
-        StudentVO student = ...
-        // 这里假设从数据库查询出来的数据如下：
-        // {
-        //   "id": 1, 
-        //   "name": "周杰伦", 
-        //   "sex": 1,         // 性别，1-男，2-女
-        //   "hobby": 2,       // 爱好，0-无爱好,1-学习,2-音乐,3-运动,...
-        //   "classId": 32     // 班级id
-        
-        // }
-        return student;
-    }
+@EnableTransform
+@SpringBootApplication
+public class TransformDemoApplication {
 
 }
    ```
 
 ### 3. 测试
 
-前端访问`http://localhost:8080/student/1`，响应结果如下：
+下载项目，启动`TransformDemoApplication.java`，浏览器访问`http://localhost:8080/student/1`，响应结果如下：
 
    ```json
    {
@@ -134,7 +114,7 @@ public class StudentVO {
   "sex": 1,
   "sexName": "男",
   "hobby": 2,
-  "hobbyName": "音乐"
+  "hobbyName": "音乐",
   "classId": 32,
   "className": "三年二班"
 }
