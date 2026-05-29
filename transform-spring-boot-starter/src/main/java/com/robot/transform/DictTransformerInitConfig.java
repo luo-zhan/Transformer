@@ -3,12 +3,8 @@ package com.robot.transform;
 
 import com.robot.transform.annotation.Transform;
 import com.robot.transform.annotation.TransformDict;
-import com.robot.transform.transformer.EnumTransformer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.event.ContextRefreshedEvent;
 
 import java.lang.reflect.Field;
@@ -26,10 +22,7 @@ import static com.robot.util.LambdaExceptionUtil.sure;
  * @author R
  * @since 2022-10-5
  */
-@Configuration
-@Import({TransformAspect.class, EnumTransformer.class})
-public class TransformAutoConfiguration implements ApplicationListener<ContextRefreshedEvent> {
-
+public class DictTransformerInitConfig implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override
     @SuppressWarnings("all")

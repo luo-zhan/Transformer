@@ -1,5 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.robot.transform.TransformAutoConfiguration,\
-  com.robot.transform.util.SpringContextUtil
-
-

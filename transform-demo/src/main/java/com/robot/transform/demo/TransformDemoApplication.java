@@ -1,5 +1,6 @@
 package com.robot.transform.demo;
 
+import com.robot.transform.annotation.EnableTransform;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  * @author R
  */
+@EnableTransform
 @SpringBootApplication
 public class TransformDemoApplication {
 

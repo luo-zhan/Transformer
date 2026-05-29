@@ -102,7 +102,7 @@ public class TransformField<T> {
     private Transformer<T, Annotation> getInstance(Class<? extends Transformer<T, Annotation>> transformerClass) {
         try {
             return SpringContextUtil.getBean(transformerClass);
-        } catch (BeansException e) {
+        } catch (Exception e) {
             try {
                 return transformerClass.getDeclaredConstructor().newInstance();
             } catch (Exception ex) {

@@ -85,12 +85,12 @@ public class StudentController {
      *
      * @link 启动项目后点击链接 <a href="http://localhost:8080/student/list/100">查看效果</a>
      */
-    @GetMapping("/list/{number}")
+    @GetMapping("/list")
     @Transform
-    public List<StudentVO> getStudentForList(@PathVariable Integer number) {
+    public List<StudentVO> getStudentForList() {
         // 示例代码，实际情况下应从db获取
         List<StudentVO> list = new ArrayList<>();
-        for (int i = 0; i < number; i++) {
+        for (int i = 0; i < 5; i++) {
             list.add(studentConvert.toVo(studentService.getById((long) i)));
         }
         // 同桌和小组成员，用来测试嵌套转换功能
@@ -109,7 +109,7 @@ public class StudentController {
     @GetMapping("/page")
     @Transform
     public IPage<StudentVO> getStudentPage() {
-        return new Page<StudentVO>().setRecords(getStudentForList(100));
+        return new Page<StudentVO>().setRecords(getStudentForList());
     }
 
     /**
