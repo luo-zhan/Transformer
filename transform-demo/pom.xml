@@ -81,10 +81,6 @@
             <version>1.35</version>
         </dependency>
 
-        <dependency>
-            <groupId>jakarta.annotation</groupId>
-            <artifactId>jakarta.annotation-api</artifactId>
-        </dependency>
 
     </dependencies>
     <build>
