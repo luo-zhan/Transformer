@@ -2,10 +2,10 @@ package com.robot.transform.demo.controller.transform;
 
 import com.robot.transform.demo.service.ClassService;
 import com.robot.transform.transformer.SimpleTransformer;
+import jakarta.annotation.Resource;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.Optional;
 
 /**

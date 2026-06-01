@@ -15,8 +15,8 @@
     <url>https://github.com/luo-zhan/Transformer</url>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
     <dependencies>
 
@@ -34,7 +34,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-core</artifactId>
-            <version>3.5.2</version>
+            <version>3.5.7</version>
             <scope>provided</scope>
         </dependency>
 

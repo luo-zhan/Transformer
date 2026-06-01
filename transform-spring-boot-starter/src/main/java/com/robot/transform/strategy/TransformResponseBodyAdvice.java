@@ -2,6 +2,7 @@ package com.robot.transform.strategy;
 
 import com.robot.transform.annotation.Transform;
 import com.robot.transform.util.TransformUtil;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.Ordered;
@@ -15,7 +16,6 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import javax.annotation.Resource;
 import java.lang.reflect.Method;
 
 /**

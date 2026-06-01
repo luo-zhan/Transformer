@@ -2,10 +2,9 @@ package com.robot.transform.demo.controller.transform;
 
 import com.robot.transform.demo.service.DictionaryService;
 import com.robot.transform.transformer.IDictTransformer;
+import jakarta.annotation.Resource;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * 数据字典转换器（示例）

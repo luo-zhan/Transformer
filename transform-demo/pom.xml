@@ -44,31 +44,31 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-core</artifactId>
-            <version>3.5.2</version>
+            <version>3.5.7</version>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-extension</artifactId>
-            <version>3.5.2</version>
+            <version>3.5.7</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-            <version>1.5.2.Final</version>
+            <version>1.5.5.Final</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
-            <version>1.5.2.Final</version>
+            <version>1.5.5.Final</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>2.0.14</version>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>2.0.51</version>
         </dependency>
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
@@ -81,6 +81,11 @@
             <version>1.35</version>
         </dependency>
 
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -91,6 +96,14 @@
                 <version>0.10.0</version>
                 <configuration>
                     <skipPublishing>true</skipPublishing> <!-- 关键：跳过该模块的发布 -->
+                </configuration>
+            </plugin>
+            <!-- JDK 17 下 DictTransformerInitConfig 需要反射修改注解 memberValues，打开 java.base 模块 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>@{argLine} --add-opens java.base/sun.reflect.annotation=ALL-UNNAMED</argLine>
                 </configuration>
             </plugin>
         </plugins>
