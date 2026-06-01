@@ -15,8 +15,8 @@
 
 Transformer是一款功能全面的字段转换工具，只需要几个简单的注解，即可实现各种姿势的字段转换，抛弃连表查询和累赘的转换逻辑，让开发更简单。
 
-> 2.X 版已在生产环境稳定运行一年，功能更强大，性能更优越，JMH测试百万数据转换仅需0.15秒
->
+> 2.X 版已在生产环境稳定运行3年，功能更强大，性能更优越，JMH测试百万数据转换仅需0.15秒
+
 ![image](https://msb-edu-dev.oss-cn-beijing.aliyuncs.com/test/Transform.png)
 
 ## 场景 / Situation
@@ -126,25 +126,37 @@ public class TransformDemoApplication {
    ```xml
    <dependency>
        <groupId>io.github.luo-zhan</groupId>
-       <artifactId>transform-spring-boot-starter</artifactId>
-           <version>2.2.0</version>
+    <!-- springboot 3 使用transform-spring-boot3-starter   -->
+    <artifactId>transform-spring-boot-starter</artifactId>
+    <version>2.2.1</version>
    </dependency>
    
   <!-- MybatisPlus扩展，增加外键id转换和Page类解包功能，非必须 -->
    <dependency>
        <groupId>io.github.luo-zhan</groupId>
+       <!-- springboot 3 使用transform-extension-for-mybatis-plus-boot3   -->
        <artifactId>transform-extension-for-mybatis-plus</artifactId>
-           <version>2.2.0</version>
+       <version>2.2.1</version>
    </dependency>
 
     <!-- MybatisFlex扩展，增加外键id转换和Page类解包功能，非必须 -->
     <dependency>
         <groupId>io.github.luo-zhan</groupId>
+        <!-- springboot 3 使用transform-extension-for-flex-plus-boot3   -->
         <artifactId>transform-extension-for-mybatis-flex</artifactId>
-            <version>2.2.0</version>
+        <version>2.2.1</version>
     </dependency>
  
    ```
+
+## 兼容性
+
+项目支持spirngboot2、springboot3，用artifactId区分
+
+| Transformer                    | Spring Boot | JDK  | Jakarta EE |
+|--------------------------------|-------------|------|------------|
+| transform-spring-boot-starter  | 2.x         | 8/11 | javax      |
+| transform-spring-boot3-starter | 3.x         | 17+  | jakarta    |
 
 ## 性能 / JMH
 
