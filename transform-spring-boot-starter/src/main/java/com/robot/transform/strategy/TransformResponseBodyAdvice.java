@@ -65,7 +65,7 @@ public class TransformResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             // 使用容器中的转换器进行返回值解包
             Object result = mvcConversionService.convert(body, Object.class);
             TransformUtil.transform(result);
-            return result;
+            return body;
         } catch (Exception e) {
             // 异常不影响接口正常返回，仅记录错误日志
             log.error("出参转换失败:类型={}, 错误={}", returnType.getMethod().getGenericReturnType(), e.getMessage(), e);
