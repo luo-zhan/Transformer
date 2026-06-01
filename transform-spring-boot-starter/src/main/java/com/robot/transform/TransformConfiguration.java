@@ -3,7 +3,6 @@ package com.robot.transform;
 import com.robot.transform.annotation.EnableTransform;
 import com.robot.transform.strategy.TransformResponseBodyAdvice;
 import com.robot.transform.util.SpringContextUtil;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,9 +37,5 @@ public class TransformConfiguration implements ImportAware {
         return new TransformResponseBodyAdvice(needAnnotation);
     }
 
-    @Bean
-    @ConditionalOnBean(name = "dictTransformer")
-    public DictTransformerInitConfig dictTransformerInitConfig() {
-        return new DictTransformerInitConfig();
-    }
+
 }

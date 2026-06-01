@@ -6,7 +6,6 @@ import com.robot.transform.util.SpringContextUtil;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.springframework.beans.BeansException;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.util.Assert;
@@ -100,14 +99,14 @@ public class TransformField<T> {
      * 获取实例，先从spring容器拿，没有的话尝试new
      */
     private Transformer<T, Annotation> getInstance(Class<? extends Transformer<T, Annotation>> transformerClass) {
-        try {
-            return SpringContextUtil.getBean(transformerClass);
-        } catch (Exception e) {
+        Transformer<T, Annotation> bean = SpringContextUtil.getBean(transformerClass);
+        if (bean == null) {
             try {
                 return transformerClass.getDeclaredConstructor().newInstance();
-            } catch (Exception ex) {
-                throw new IllegalStateException("无法实例化转换器: " + transformerClass.getName()+ "，请确保它是 Spring Bean 或有无参构造器", ex);
+            } catch (Exception e) {
+                throw new IllegalStateException("无法实例化转换器: " + transformerClass.getName() + "，请确保它是 Spring Bean 或有无参构造器", e);
             }
         }
+        return bean;
     }
 }
