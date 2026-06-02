@@ -3,6 +3,7 @@ package com.robot.transform.demo.bean;
 import com.robot.transform.annotation.Transform;
 import com.robot.transform.annotation.TransformDict;
 import com.robot.transform.annotation.TransformEnum;
+import com.robot.transform.demo.controller.transform.TransformBatch;
 import com.robot.transform.demo.controller.transform.TransformClass;
 import com.robot.transform.demo.enums.Sex;
 import lombok.Data;
@@ -44,6 +45,13 @@ public class StudentVO {
     // 班级名称（自定义转换：根据班级id查询name）
     @TransformClass
     private String className;
+
+    // 年级code（用于批量转换测试）
+    private Integer grade;
+
+    // 年级名称（批量转换测试）
+    @TransformBatch
+    private String gradeName;
 
     // 小组成员（嵌套转换）
     @Transform

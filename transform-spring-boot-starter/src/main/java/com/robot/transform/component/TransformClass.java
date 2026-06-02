@@ -53,8 +53,15 @@ public class TransformClass {
             return;
         }
         if (obj instanceof Collection) {
-            for (Object bean : (Collection<?>) obj) {
-                transformBean(bean);
+            Collection<?> collection = (Collection<?>) obj;
+            for (TransformField<?> transformField : transformFields) {
+                if (transformField.isBatchSupported()) {
+                    transformField.transformBatch(collection);
+                } else {
+                    for (Object bean : collection) {
+                        transformField.transform(bean);
+                    }
+                }
             }
         } else {
             transformBean(obj);

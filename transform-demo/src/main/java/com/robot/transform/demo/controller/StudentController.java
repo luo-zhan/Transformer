@@ -116,13 +116,32 @@ public class StudentController {
      * 4、转换插件支持自定义包装类
      * 解包器在项目实际使用时需自己实现
      *
-     * @link 启动项目后点击链接 <a href="http://localhost:8080/student/wrapper">查看效果</a> 
+     * @link 启动项目后点击链接 <a href="http://localhost:8080/student/wrapper">查看效果</a>
      * @see TransformConfig.ResultUnWrapper 自定义解包器示例
      */
     @GetMapping("/wrapper")
     @Transform
     public ResultWrapper<StudentVO> getStudentWrapper() {
         return ResultWrapper.success(getStudent(1L));
+    }
+
+    /**
+     * 5、批量转换测试：转换List时触发批量转换路径
+     *
+     * @link 启动项目后点击链接 <a href="http://localhost:8080/student/batch-list">查看效果</a>
+     */
+    @GetMapping("/batch-list")
+    @Transform
+    public List<StudentVO> getStudentBatchList() {
+        // 示例代码，实际情况下应从db获取
+        List<StudentVO> list = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            StudentVO vo = studentConvert.toVo(studentService.getById((long) i));
+            // 设置年级code用于批量转换测试
+            vo.setGrade(i % 3 + 1);
+            list.add(vo);
+        }
+        return list;
     }
 
 }

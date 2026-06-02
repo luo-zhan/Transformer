@@ -1,7 +1,12 @@
 package com.robot.transform.demo.service;
 
+import com.robot.transform.demo.bean.ClassDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 班级服务
@@ -23,5 +28,13 @@ public class ClassService {
         // 实际情况下应查询db
         return "三年" + classId + "班";
 
+    }
+
+    public List<ClassDTO> queryClassInfo(Set<Long> ids) {
+
+        // 根据ids响应班级名称
+        return ids.stream()
+                .map(classId -> new ClassDTO(classId, "三年" + classId + "班"))
+                .collect(Collectors.toList());
     }
 }

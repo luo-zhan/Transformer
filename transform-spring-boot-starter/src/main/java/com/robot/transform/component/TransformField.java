@@ -1,6 +1,7 @@
 package com.robot.transform.component;
 
 import com.robot.transform.annotation.Transform;
+import com.robot.transform.transformer.BatchTransformer;
 import com.robot.transform.transformer.Transformer;
 import com.robot.transform.util.SpringContextUtil;
 import lombok.Data;
@@ -12,9 +13,7 @@ import org.springframework.util.Assert;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -30,6 +29,10 @@ public class TransformField<T> {
     private Transformer<T, Annotation> transformer;
     private Annotation transformAnnotation;
     /**
+     * 是否支持批量转换
+     */
+    private boolean batchSupported;
+    /**
      * 转换结果缓存，线程级别
      */
     private ThreadLocal<Map<T, String>> transformResultCache = ThreadLocal.withInitial(ConcurrentHashMap::new);
@@ -44,6 +47,7 @@ public class TransformField<T> {
         this.originField = FieldUtils.getField(field.getDeclaringClass(), originFieldName, true);
         Class<? extends Transformer<T, Annotation>> transformerClass = (Class<? extends Transformer<T, Annotation>>) mergedAnnotation.transformer();
         this.transformer = getInstance(transformerClass);
+        this.batchSupported = this.transformer instanceof BatchTransformer;
         // 获取自定义注解类型（Transformer上有两个泛型，第一个是转换前的值类型，第二个是是自定义注解类型）
         ResolvableType resolvableType = ResolvableType.forClass(Transformer.class, transformerClass);
         Class<? extends Annotation> customTransformAnnotationType = (Class<? extends Annotation>) resolvableType.getGeneric(1).resolve();
@@ -65,6 +69,45 @@ public class TransformField<T> {
         }
         String transformResult = transformResultCache.get().computeIfAbsent(originalValue, k -> transformer.transform(originalValue, transformAnnotation));
         FieldUtils.writeField(field, bean, transformResult, true);
+    }
+
+    /**
+     * 批量转换结果
+     *
+     * @param beans 对象集合
+     */
+    @SuppressWarnings("unchecked")
+    public void transformBatch(Collection<?> beans) throws IllegalAccessException {
+        if (!batchSupported) {
+            for (Object bean : beans) {
+                transform(bean);
+            }
+            return;
+        }
+        BatchTransformer<T, Annotation> batchTransformer = (BatchTransformer<T, Annotation>) transformer;
+        Set<T> originalValues = new HashSet<>();
+        for (Object bean : beans) {
+            T originalValue = (T) FieldUtils.readField(originField, bean, true);
+            if (originalValue != null) {
+                originalValues.add(originalValue);
+            }
+        }
+        if (originalValues.isEmpty()) {
+            return;
+        }
+        Map<T, String> resultMap = batchTransformer.batchTransform(originalValues, transformAnnotation);
+        if (resultMap.isEmpty()) {
+            return;
+        }
+        for (Object bean : beans) {
+            T originalValue = (T) FieldUtils.readField(originField, bean, true);
+            if (originalValue != null) {
+                String result = resultMap.get(originalValue);
+                if (result != null) {
+                    FieldUtils.writeField(field, bean, result, true);
+                }
+            }
+        }
     }
 
     /**
