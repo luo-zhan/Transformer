@@ -35,7 +35,8 @@ public class ClassTransformer implements BatchTransformer<Long, TransformClass> 
 
 
     @Override
-    public String transform(@NonNull Long originalValue) {
-        return classService.getName(originalValue);
+    public String transform(@NonNull Long classId) {
+        // 单个查询
+        return classService.getName(classId);
     }
 }

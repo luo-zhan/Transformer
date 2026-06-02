@@ -1,5 +1,6 @@
 package com.robot.transform.annotation;
 
+import com.robot.transform.transformer.BatchTransformer;
 import com.robot.transform.transformer.Transformer;
 
 import java.lang.annotation.*;
@@ -27,10 +28,16 @@ public @interface Transform {
      */
     String from() default "";
 
-    /**
-     * 异步转换功能（即将实现，敬请期待）
-     */
-    boolean async() default false;
 
-    int cacheTime() default -1;
+    /**
+     * 开启批量转换时，设置每批数量
+     * 前提是转换器必须实现 {@link BatchTransformer} 接口
+     */
+    int batchSize() default 200;
+
+
+    /**
+     * 批量转换时，是否开启多线程
+     */
+    boolean async() default true;
 }

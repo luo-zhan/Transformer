@@ -25,7 +25,7 @@ public class SpringContextUtil implements ApplicationContextAware {
         return context.getBeanProvider(clazz).getIfAvailable();
     }
 
-    private static void setContext(ApplicationContext context) {
+    public static void setContext(ApplicationContext context) {
         SpringContextUtil.context = context;
     }
 

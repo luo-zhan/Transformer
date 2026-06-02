@@ -3,6 +3,7 @@ package com.robot.transform.demo.test;
 import com.robot.transform.demo.TransformDemoApplication;
 import com.robot.transform.demo.bean.StudentVO;
 import com.robot.transform.demo.enums.Sex;
+import com.robot.transform.util.SpringContextUtil;
 import com.robot.transform.util.TransformUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
@@ -11,7 +12,8 @@ import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.ArrayList;
@@ -62,7 +64,6 @@ public class TransformBenchmark {
     public static void main(String[] args) throws RunnerException {
         Options options = new OptionsBuilder()
                 .include(TransformBenchmark.class.getSimpleName())
-
                 .build();
 
         new Runner(options).run();
@@ -87,7 +88,10 @@ public class TransformBenchmark {
     @Setup
     public void setUp() {
         // 启动容器
-        context = SpringApplication.run(TransformDemoApplication.class);
+        context = new SpringApplicationBuilder(TransformDemoApplication.class)
+                .web(WebApplicationType.NONE)   // 关键：禁用Web服务器
+                .run();
+        SpringContextUtil.setContext(context);
         // 模拟从db中查询出来的数据
         for (int i = 0; i < number; i++) {
             StudentVO student = newStudentVO(i);
