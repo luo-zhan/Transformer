@@ -4,7 +4,7 @@ import com.robot.transform.annotation.Transform;
 import com.robot.transform.transformer.BatchTransformer;
 import com.robot.transform.transformer.Transformer;
 import com.robot.transform.util.SpringContextUtil;
-import lombok.Data;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.core.ResolvableType;
@@ -22,20 +22,20 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author R
  */
-@Data
+@Getter
 public class TransformField<T> {
-    private Field field;
-    private Field originField;
-    private Transformer<T, Annotation> transformer;
-    private Annotation transformAnnotation;
+    private final Field field;
+    private final Field originField;
+    private final Transformer<T, Annotation> transformer;
+    private final Annotation transformAnnotation;
     /**
      * 是否支持批量转换
      */
-    private boolean batchSupported;
+    private final boolean batchSupported;
     /**
      * 转换结果缓存，线程级别
      */
-    private ThreadLocal<Map<T, String>> transformResultCache = ThreadLocal.withInitial(ConcurrentHashMap::new);
+    private final ThreadLocal<Map<T, String>> transformResultCache = ThreadLocal.withInitial(ConcurrentHashMap::new);
 
     @SuppressWarnings("unchecked")
     public TransformField(Field field) {
