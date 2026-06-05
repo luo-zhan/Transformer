@@ -130,7 +130,7 @@ public class TransformDemoApplication {
        <groupId>io.github.luo-zhan</groupId>
     <!-- springboot 3 使用transform-spring-boot3-starter   -->
     <artifactId>transform-spring-boot-starter</artifactId>
-    <version>2.2.1</version>
+    <version>2.3.0</version>
    </dependency>
    
   <!-- MybatisPlus扩展，增加外键id转换和Page类解包功能，非必须 -->
@@ -138,7 +138,7 @@ public class TransformDemoApplication {
        <groupId>io.github.luo-zhan</groupId>
        <!-- springboot 3 使用transform-extension-for-mybatis-plus-boot3   -->
        <artifactId>transform-extension-for-mybatis-plus</artifactId>
-       <version>2.2.1</version>
+       <version>2.3.0</version>
    </dependency>
 
     <!-- MybatisFlex扩展，增加外键id转换和Page类解包功能，非必须 -->
@@ -146,7 +146,7 @@ public class TransformDemoApplication {
         <groupId>io.github.luo-zhan</groupId>
         <!-- springboot-3 使用transform-extension-for-flex-plus-boot3   -->
         <artifactId>transform-extension-for-mybatis-flex</artifactId>
-        <version>2.2.1</version>
+        <version>2.3.0</version>
     </dependency>
  
    ```
