@@ -1,9 +1,10 @@
 package com.robot.transform.extend.transformer;
 
 
+import com.mybatisflex.annotation.Id;
 import com.mybatisflex.core.BaseMapper;
 import com.robot.transform.extend.annotation.TransformFK;
-import com.robot.transform.transformer.Transformer;
+import com.robot.transform.transformer.BatchTransformer;
 import com.robot.transform.util.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
@@ -12,6 +13,7 @@ import org.springframework.util.ReflectionUtils;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.*;
 
 /**
  * 外键转换器
@@ -21,20 +23,45 @@ import java.lang.reflect.Field;
  * @see TransformFK （Mapper转换注解）
  */
 @Slf4j
-public class ForeignKeyTransformer implements Transformer<Serializable, TransformFK> {
+public class ForeignKeyTransformer implements BatchTransformer<Serializable, TransformFK> {
 
     @Override
-    public String transform(@NonNull Serializable id, @NonNull TransformFK annotation) {
+    @NonNull
+    public Map<Serializable, String> batchTransform(@NonNull Set<Serializable> ids, @NonNull TransformFK annotation) {
+        if (ids.isEmpty()) {
+            return Collections.emptyMap();
+        }
         Class<? extends BaseMapper<?>> clazz = annotation.mapper();
         BaseMapper<?> mapper = SpringContextUtil.getBean(clazz);
-        Object entity = mapper.selectOneById(id);
-        if (entity == null) {
-            log.warn("转换警告：{}类根据id={}，找不到任何数据！", clazz.getSimpleName(), id);
-            return null;
+        List<?> list = mapper.selectListByIds(ids);
+        if (list == null || list.isEmpty()) {
+            log.warn("转换警告：{}类根据ids={}，找不到任何数据！", clazz.getSimpleName(), ids);
+            return Collections.emptyMap();
         }
-        Field field = ReflectionUtils.findField(entity.getClass(), annotation.to());
-        Assert.notNull(field, "找不到该属性，请检查注解@TransformFK的field字段配置：" + annotation);
-        ReflectionUtils.makeAccessible(field);
-        return (String) ReflectionUtils.getField(field, entity);
+
+        Field idField = findIdField(list.get(0).getClass());
+        Assert.notNull(idField, "找不到id字段，请检查实体类是否包含id字段或@Id注解：" + list.get(0).getClass());
+        ReflectionUtils.makeAccessible(idField);
+
+        Field targetField = ReflectionUtils.findField(list.get(0).getClass(), annotation.to());
+        Assert.notNull(targetField, "找不到该属性，请检查注解@TransformFK的to字段配置：" + annotation);
+        ReflectionUtils.makeAccessible(targetField);
+
+        Map<Serializable, String> result = new HashMap<>(list.size());
+        for (Object entity : list) {
+            Serializable entityId = (Serializable) ReflectionUtils.getField(idField, entity);
+            Object value = ReflectionUtils.getField(targetField, entity);
+            result.put(entityId, value == null ? null : value.toString());
+        }
+        return result;
+    }
+
+    private Field findIdField(Class<?> clazz) {
+        for (Field field : clazz.getDeclaredFields()) {
+            if (field.isAnnotationPresent(Id.class)) {
+                return field;
+            }
+        }
+        return ReflectionUtils.findField(clazz, "id");
     }
 }
