@@ -28,6 +28,8 @@ public @interface TransformEnum {
 
     /**
      * 枚举class，必须实现了Dict接口
+     * <p>
+     * 源字段可以是该枚举的code（如Integer、Long等），也可以直接是枚举实例本身
      */
     @SuppressWarnings("rawtypes")
     Class<? extends Dict> value();

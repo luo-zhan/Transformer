@@ -17,6 +17,10 @@ public class EnumTransformer<T extends Serializable> implements Transformer<T, T
     @Override
     @SuppressWarnings("unchecked")
     public String transform(@NonNull T enumCode, TransformEnum annotation) {
+        if (enumCode instanceof Dict) {
+            // 源字段本身是Dict枚举实例，直接取text
+            return ((Dict<?>) enumCode).getText();
+        }
         return Dict.getTextByCode((Class<? extends Dict<T>>) annotation.value(), enumCode);
     }
 
