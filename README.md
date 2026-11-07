@@ -37,9 +37,8 @@ Transformer是一款功能全面的字段转换工具，只需要几个简单的
 - [x] 支持处理包装类型（如返回值Page、ResultWrapper这种包装类拆包后才是真正的数据）
 - [x] 支持自定义转换注解，增强扩展性（支持redis、本地缓存）
 - [x] 支持嵌套字段的转换 【2.0.0已支持】
-- [x] 转换配置缓存，转换配置首次处理后不再重复处理，节省反射开销
-- [x] 转换结果缓存，同一线程转换结果放入ThreadLocal，提高批量转换的性能
-- [ ] 多线程转换，进一步提高批量转换的性能
+- [x] 会话级缓存，分页导出等多次转换场景共享缓存，相同字典值只查一次【2.3.1已支持】
+
 
 如果你有好的想法或建议，欢迎提issues或PR :)
 
@@ -179,6 +178,28 @@ TransformBenchmark.transformNest   1000000   avgt   469.017           ms/op
 > 注意：以上测试未包含IO访问，如果涉及IO访问，由于组件设计了转换结果缓存，所以转换性能将与IO耗时以及请求数据重复率有很大关系，所以具体性能还需根据实际情况而定。
 
 测试代码详见`transform-demo`模块的`TransformBenchmark`类。
+
+## 会话级缓存 / Session Cache
+
+分页导出等大数据量场景会多次调用`TransformUtil.transform()`，默认每次转换结束后缓存即被清空，
+相同字典值在每一页都会重新查询。开启会话后，转换结果缓存跨多次转换共享，会话关闭时统一清空：
+
+```java
+try (TransformSession session = TransformUtil.openSession()) {
+    while (!(page = studentService.page(pageNum++, 1000)).isEmpty()) {
+        TransformUtil.transform(page);
+        excelWriter.write(page);
+    }
+}
+```
+
+- 10万数据分页导出，每页1000条：未开会话需100次字典查询，开会话后仅1次（新增字典值时增量查询）
+- 同一导出文件内字典口径保持一致
+- 单字段缓存容量上限8192条，防止外键等高基数字段（导出场景id基本唯一）内存无限增长
+- 会话基于ThreadLocal，仅当前线程内生效，并行分页导出时每个工作线程应各自开启会话
+- 推荐配合try-with-resources使用，避免忘记关闭导致缓存泄漏到线程池中的后续任务
+
+测试代码详见`transform-demo`模块的`TransformSessionTest`类。
 
 ## 开源协议 / License
 

@@ -1,6 +1,7 @@
 package com.robot.transform.util;
 
 import com.robot.transform.component.TransformClass;
+import com.robot.transform.component.TransformSession;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -28,6 +29,9 @@ public class TransformUtil {
     /**
      * 转换对象，支持集合(Collection)或者单个bean
      * 并直接改变对象内部属性
+     * <p>
+     * 每次转换结束后清空转换结果缓存；如需多次转换间共享缓存（如分页导出场景），
+     * 请使用 {@link #openSession()} 开启会话
      *
      * @param object 集合或单个bean
      */
@@ -40,8 +44,33 @@ public class TransformUtil {
         Set<TransformClass> transformClassRecorder = new HashSet<>();
         // 字段转换，并记录转换类
         transform(object, transformClass, transformClassRecorder);
-        // 清空缓存
-        transformClassRecorder.forEach(TransformClass::clearCache);
+        // 清空缓存；会话期间延迟到会话关闭时统一清空，多次转换间共享缓存
+        if (!TransformSession.recordIfActive(transformClassRecorder)) {
+            transformClassRecorder.forEach(TransformClass::clearCache);
+        }
+    }
+
+    /**
+     * 开启转换会话（线程级别）
+     * <p>
+     * 适用于大数据量分页导出等需要多次调用 {@link #transform(Object)} 的场景：
+     * 会话期间转换结果缓存跨多次转换共享，相同的原始值（如字典code）只触发一次实际转换，
+     * 会话关闭时统一清空缓存，同一导出文件内字典口径保持一致
+     * <p>
+     * 推荐配合try-with-resources使用，避免忘记关闭导致缓存泄漏到线程池中的后续任务：
+     * <pre>{@code
+     * try (TransformSession session = TransformUtil.openSession()) {
+     *     while (!(page = studentService.page(pageNum++, 1000)).isEmpty()) {
+     *         TransformUtil.transform(page);
+     *         excelWriter.write(page);
+     *     }
+     * }
+     * }</pre>
+     *
+     * @return 会话，close时清空会话期间累计的转换结果缓存
+     */
+    public static TransformSession openSession() {
+        return TransformSession.open();
     }
 
     /**

@@ -34,8 +34,15 @@ public class TransformField<T> {
     private final boolean batchSupported;
     /**
      * 转换结果缓存，线程级别
+     * 非会话模式下单次转换内有效；会话模式（{@link TransformSession}）下整个会话期间跨多次转换共享
      */
     private final ThreadLocal<Map<T, String>> transformResultCache = ThreadLocal.withInitial(ConcurrentHashMap::new);
+
+    /**
+     * 单字段缓存容量上限，防止外键等高基数字段（导出场景id基本唯一）无限增长
+     * 超出后不再写入新的缓存条目，已缓存条目仍然生效
+     */
+    private static final int MAX_RESULT_CACHE_SIZE = 2048;
 
     @SuppressWarnings("unchecked")
     public TransformField(Field field) {
@@ -67,12 +74,20 @@ public class TransformField<T> {
         if (originalValue == null) {
             return;
         }
-        String transformResult = transformResultCache.get().computeIfAbsent(originalValue, k -> transformer.transform(originalValue, transformAnnotation));
+        Map<T, String> cacheMap = transformResultCache.get();
+        String transformResult = cacheMap.get(originalValue);
+        if (transformResult == null) {
+            transformResult = transformer.transform(originalValue, transformAnnotation);
+            // null结果不缓存（保证下次重试），超出容量上限后不再写入新条目
+            if (transformResult != null && cacheMap.size() < MAX_RESULT_CACHE_SIZE) {
+                cacheMap.put(originalValue, transformResult);
+            }
+        }
         FieldUtils.writeField(field, bean, transformResult, true);
     }
 
     /**
-     * 批量转换结果
+     * 批量转换结果，缓存已命中的值直接复用，未命中的值合并成一次批量转换
      *
      * @param beans 对象集合
      */
@@ -95,7 +110,28 @@ public class TransformField<T> {
         if (originalValues.isEmpty()) {
             return;
         }
-        Map<T, String> resultMap = batchTransformer.batchTransform(originalValues, transformAnnotation);
+        // 先分离缓存已命中与未命中的原始值，只有未命中的值才真正执行批量转换（会话模式下跨多次转换复用缓存）
+        Map<T, String> cacheMap = transformResultCache.get();
+        Map<T, String> resultMap = new HashMap<>(originalValues.size() * 2);
+        Set<T> uncachedValues = new HashSet<>(originalValues.size());
+        for (T originalValue : originalValues) {
+            String cachedResult = cacheMap.get(originalValue);
+            if (cachedResult != null) {
+                resultMap.put(originalValue, cachedResult);
+            } else {
+                uncachedValues.add(originalValue);
+            }
+        }
+        if (!uncachedValues.isEmpty()) {
+            Map<T, String> freshResultMap = batchTransformer.batchTransform(uncachedValues, transformAnnotation);
+            for (Map.Entry<T, String> entry : freshResultMap.entrySet()) {
+                // 查不到（null）的结果不缓存，下次转换仍会重试，与无缓存时行为一致；超出容量上限后不再写入新条目
+                if (entry.getValue() != null && cacheMap.size() < MAX_RESULT_CACHE_SIZE) {
+                    cacheMap.put(entry.getKey(), entry.getValue());
+                }
+                resultMap.put(entry.getKey(), entry.getValue());
+            }
+        }
         if (resultMap.isEmpty()) {
             return;
         }
