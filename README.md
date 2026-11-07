@@ -37,7 +37,7 @@ Transformer是一款功能全面的字段转换工具，只需要几个简单的
 - [x] 支持处理包装类型（如返回值Page、ResultWrapper这种包装类拆包后才是真正的数据）
 - [x] 支持自定义转换注解，增强扩展性（支持redis、本地缓存）
 - [x] 支持嵌套字段的转换 【2.0.0已支持】
-- [x] 会话级缓存，分页导出等多次转换场景共享缓存，相同字典值只查一次【2.3.1已支持】
+- [x] 会话级缓存，分页导出等多次转换场景共享缓存，相同字典值只查一次【2.4.0已支持】
 
 
 如果你有好的想法或建议，欢迎提issues或PR :)
@@ -129,7 +129,7 @@ public class TransformDemoApplication {
        <groupId>io.github.luo-zhan</groupId>
     <!-- springboot 3 使用transform-spring-boot3-starter   -->
     <artifactId>transform-spring-boot-starter</artifactId>
-    <version>2.3.1</version>
+    <version>2.4.0</version>
    </dependency>
    
   <!-- MybatisPlus扩展，增加外键id转换和Page类解包功能，非必须 -->
@@ -137,7 +137,7 @@ public class TransformDemoApplication {
        <groupId>io.github.luo-zhan</groupId>
        <!-- springboot 3 使用transform-extension-for-mybatis-plus-boot3   -->
        <artifactId>transform-extension-for-mybatis-plus</artifactId>
-       <version>2.3.1</version>
+       <version>2.4.0</version>
    </dependency>
 
     <!-- MybatisFlex扩展，增加外键id转换和Page类解包功能，非必须 -->
@@ -145,7 +145,7 @@ public class TransformDemoApplication {
         <groupId>io.github.luo-zhan</groupId>
         <!-- springboot-3 使用transform-extension-for-flex-plus-boot3   -->
         <artifactId>transform-extension-for-mybatis-flex</artifactId>
-        <version>2.3.1</version>
+        <version>2.4.0</version>
     </dependency>
  
    ```
